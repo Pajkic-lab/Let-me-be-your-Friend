@@ -1,6 +1,4 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
-//const mongoose = require('mongoose')
-//const User = require('../models/User')
 const pool = require('./db')
 
 
@@ -19,23 +17,29 @@ module.exports = function (passport) {
           image: profile.photos[0].value
         }*/
         try {
-          //let user = await User.findOne({ googleId: profile.id })
+          console.log(profile)
           const newUser = await pool.query("SELECT * FROM users WHERE googleId = $1", [profile.id])
-          const user = {
+          if (newUser.rows.length > 0) {
+            console.log(newUser)
+            const user = {
             id: newUser.rows[0].id,
             name: newUser.rows[0].name,
-            email: newUser.rows[0].email,
             googleId: newUser.rows[0].googleId,
             image: newUser.rows[0].image
-        }
-          if (newUser) {
+            }
             done(null, user)
           } else {
-            //user = await User.create(newUser)
-            const user = await pool.query("INSERT INTO users (name, googleId, image) VALUES($1, $2, $3) RETURNING *", [profile.displayName, profile.id, profile.photos[0].value])
+            const newUser = await pool.query("INSERT INTO users (name, googleId, image) VALUES($1, $2, $3) RETURNING *", [profile.displayName, profile.id, profile.photos[0].value])
+            console.log(newUser)
+            const user = {
+              id: newUser.rows[0].id,
+              name: newUser.rows[0].name,
+              googleId: newUser.rows[0].googleId,
+              image: newUser.rows[0].image
+          }
             done(null, user)
           } 
-          console.log(user) 
+          console.log(user)  
         } catch (err) {
           console.error(err)
         }
@@ -44,10 +48,24 @@ module.exports = function (passport) {
   )
  
   passport.serializeUser((user, done) => {
-    done(null, user)
+    done(null, user.id)
   })
 
-  passport.deserializeUser((id, done) => {
-    done(null, user)
+  passport.deserializeUser( async(id, done) => {
+    const newUser = await pool.query("SELECT * FROM users WHERE id = $1", [id])
+    const user = {
+      id: newUser.rows[0].id,
+      name: newUser.rows[0].name,
+      googleId: newUser.rows[0].googleId,
+      image: newUser.rows[0].image
+  }
+    done(null, user) 
   })
 }
+
+/*
+passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => done(err, user))
+    
+  })
+*/

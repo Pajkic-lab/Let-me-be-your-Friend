@@ -15,8 +15,6 @@ require('./passport')(passport)
 
 app.use(cors())
 app.use(express.json({ extended: false }))
-app.use(passport.initialize())
-app.use(passport.session())
 app.use(session({
   name: 'SESS_NAME',
   store: new pgSession({
@@ -29,6 +27,8 @@ app.use(session({
   sameSite: true,
   cookie: { maxAge: 24 * 60 * 60 * 1000 }  
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 

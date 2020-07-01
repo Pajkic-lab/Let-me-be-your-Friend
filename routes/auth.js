@@ -49,9 +49,9 @@ router.post('/', [
         const sessionUser = {
           id: user.rows[0].id,
           name: user.rows[0].name,
-          email: user.rows[0].email,
-          googleId: user.rows[0].googleId,
-          image: user.rows[0].image
+          email: user.rows[0].email
+          //googleId: user.rows[0].googleId,
+          //image: user.rows[0].image
       }
         req.session.user = sessionUser
         res.send(sessionUser)

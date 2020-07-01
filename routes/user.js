@@ -27,9 +27,9 @@ async(req, res)=> {
         const sessionUser = {
             id: newUser.rows[0].id,
             name: newUser.rows[0].name,
-            email: newUser.rows[0].email,
-            googleId: newUser.rows[0].googleId,
-            image: newUser.rows[0].image
+            email: newUser.rows[0].email
+            //googleId: newUser.rows[0].googleId,
+            //image: newUser.rows[0].image
         }
         req.session.user = sessionUser
         res.send(sessionUser) 
