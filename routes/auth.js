@@ -19,6 +19,7 @@ router.get(
   '/google/callback', 
   passport.authenticate('google', { failureRedirect: "http://localhost:3000" }),
   (req, res) => {
+    console.log(req.user)
     res.redirect("http://localhost:3000/dashboard")
   }
 )
@@ -49,7 +50,7 @@ router.post('/', [
         const sessionUser = {
           id: user.rows[0].id,
           name: user.rows[0].name,
-          email: user.rows[0].email
+          email: user.rows[0].email,
           //googleId: user.rows[0].googleId,
           //image: user.rows[0].image
       }

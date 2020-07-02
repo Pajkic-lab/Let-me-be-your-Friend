@@ -6,7 +6,7 @@ CREATE TABLE users (
  email VARCHAR(100) UNIQUE,
  password VARCHAR(100),
  googleId VARCHAR(100),
- image VARCHAR(100)
+ image VARCHAR(300)
  );
 
 CREATE TABLE "session" (

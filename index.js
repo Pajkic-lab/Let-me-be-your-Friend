@@ -22,7 +22,7 @@ app.use(session({
     tableName : 'session'
   }),
   secret: process.env.FOO_COOKIE_SECRET,
-  saveUninitialized: true,
+  saveUninitialized: false,
   resave: false,
   sameSite: true,
   cookie: { maxAge: 24 * 60 * 60 * 1000 }  
