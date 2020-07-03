@@ -8,8 +8,9 @@ const Dashboard = () => {
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        //dispatch(getUser())
-    }, [])
+        dispatch(getUser())
+    },[])
+
     return (
         <div>
             <Fragment>

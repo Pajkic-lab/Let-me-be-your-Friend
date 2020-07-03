@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { reg, log, selectUser } from '../features/user/userSlice'
+import { reg, log, selectUser,  getUser } from '../features/user/userSlice'
 
 
 const LandingPage = ({history}) => {
@@ -34,6 +34,10 @@ const LandingPage = ({history}) => {
 
     const{ isAuthenticated } = useSelector(selectUser)
 
+    useEffect(()=>{
+        dispatch(getUser())
+    },[])
+
     useEffect(() => {
         if(isAuthenticated === true) {
             history.push('/dashboard')
@@ -56,7 +60,7 @@ const LandingPage = ({history}) => {
             (
             <Fragment>
             <h1>REGISTER</h1> <br/> <br/>
-            <a href="http://localhost:5000/auth/google">GOOGLE</a>
+            <a  href="http://localhost:5000/auth/google">GOOGLE</a>
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} placeholder='name' name='name' value={name} required /><br/>
                 <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>

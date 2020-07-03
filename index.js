@@ -40,6 +40,7 @@ if(process.env.NODE_ENV === "production") {
   //Routes
   app.use('/auth', require('./routes/auth'))
   app.use('/user', require('./routes/user'))
+  app.use('/getuser', require('./routes/getuser'))
 
 
   app.get("*", (req, res) => {

@@ -19,7 +19,8 @@ router.get(
   '/google/callback', 
   passport.authenticate('google', { failureRedirect: "http://localhost:3000" }),
   (req, res) => {
-    console.log(req.user)
+    //console.log(res)
+    req.session.user = req.user
     res.redirect("http://localhost:3000/dashboard")
   }
 )
@@ -71,19 +72,12 @@ router.delete('/', (req, res)=> {
         res.send(user)
       })
     } else {
-      throw new Error('Somthing went wrong!!!')     
+      throw new Error('Somthing went wrong!!!')      
     }
   } catch (err) {
     console.log(err) 
   }
 })
-/*
-router.get('/', (req, res)=> {
-  try {
-    console.log(req.session.user)  
-  } catch (err) {
-    console.log(err)
-  }
-})*/
+
 
 module.exports = router
