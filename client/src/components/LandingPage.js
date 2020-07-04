@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { reg, log, selectUser,  getUser } from '../features/user/userSlice'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const LandingPage = ({history}) => {
@@ -8,10 +10,11 @@ const LandingPage = ({history}) => {
         switcher: true,
         name: '',
         email: '',
-        password: ''
+        password: '',
+        passwordRep: ''
     })
 
-    const{switcher, name, email, password} = formData
+    const{switcher, name, email, password, passwordRep} = formData
 
     const dispatch = useDispatch()
 
@@ -27,25 +30,36 @@ const LandingPage = ({history}) => {
         if(switcher === true ) {
             dispatch(log({email, password}))
         } else {
-            dispatch(reg({name, email, password}))
+            if(password === passwordRep) {
+                dispatch(reg({name, email, password}))
+            } else {
+                toast.error('PASSWORD DOES NOT MATCH!')
+            }
         }
-        setFormData({ ...formData, name:'', email:'', password:''})
+        setFormData({ ...formData, name:'', email:'', password:'', passwordRep:''})
     }
 
-    const{ isAuthenticated } = useSelector(selectUser)
+    const{ isAuthenticated, error } = useSelector(selectUser)
 
     useEffect(()=>{
         dispatch(getUser())
+        // eslint-disable-next-line
     },[])
 
     useEffect(() => {
         if(isAuthenticated === true) {
             history.push('/dashboard')
         }
+        // eslint-disable-next-line
     }, [isAuthenticated])
+
+    if(error !== null) {
+        toast.error(error)
+    }
 
     return (
         <div>
+            <ToastContainer />
             { switcher===true? (
             <Fragment>
             <h1>LOGIN</h1> <br/> <br/>
@@ -64,7 +78,8 @@ const LandingPage = ({history}) => {
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} placeholder='name' name='name' value={name} required /><br/>
                 <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>
-                <input onChange={onChange} placeholder='password' name='password' value={password} required /><br/> <br/>
+                <input onChange={onChange} placeholder='password' name='password' value={password} required /><br/>
+                <input onChange={onChange} placeholder='pleas repeat password' name='passwordRep' value={passwordRep} required /><br/> <br/>
                 <button>REGISTER</button>
             </form>
             </Fragment>)}

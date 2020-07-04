@@ -42,11 +42,11 @@ if(process.env.NODE_ENV === "production") {
   app.use('/user', require('./routes/user'))
   app.use('/getuser', require('./routes/getuser'))
 
-
+/*
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client/build/index.html"))  
   })
-
+*/
 
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)

@@ -9,6 +9,7 @@ const Dashboard = () => {
 
     useEffect(()=>{
         dispatch(getUser())
+        // eslint-disable-next-line
     },[])
 
     return (

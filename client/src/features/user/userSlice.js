@@ -5,7 +5,8 @@ export const userSlice = createSlice({
     name: 'user',
     initialState:  {
         user: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        error: null
     },
     reducers: {
         handleRegister: (state, action) => {
@@ -22,18 +23,22 @@ export const userSlice = createSlice({
         handleGetuser: (state, action) => {
             const { name, email, id, googleId, image } = action.payload
             return { ...state, isAuthenticated: true, user: { id, name, email, googleId, image } }
+        },
+        handleError: (state, action) => {
+            return { ...state, error: action.payload }
         }
     }
 })
 
-export const { handleRegister, handleLogin, handleLogout, handleGetuser } = userSlice.actions 
+export const { handleRegister, handleLogin, handleLogout, handleGetuser, handleError } = userSlice.actions 
 
 export const reg = ({name, email, password}) => async dispatch => {
     try {
         const res = await axios.post('/user', {name, email, password} )
         dispatch(handleRegister(res.data))
-    } catch (error) {
-        console.log(error)   
+    } catch (err) {
+        const error = err.response.data.error
+        dispatch(handleError(error))
     }
 }
 
@@ -42,7 +47,8 @@ export const log = ({email, password}) => async dispatch => {
         const res = await axios.post('/auth', {email, password})
         dispatch(handleLogin(res.data))
     } catch (err) {
-        console.log(err)
+        const error = err.response.data.error
+        dispatch(handleError(error))
     }
 }
 
@@ -59,7 +65,6 @@ export const getUser = () => async dispatch => {
     try {
         const res = await axios.get('/getuser')
         dispatch(handleGetuser(res.data))
-        //console.log(res.data)
     } catch (err) {
         console.log(err)
     }

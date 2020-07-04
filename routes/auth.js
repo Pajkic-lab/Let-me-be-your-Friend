@@ -39,7 +39,7 @@ router.post('/', [
 ], async(req, res)=> {
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ error: errors.errors[0].msg })
     }
     const {email, password} = await req.body
     try {
@@ -51,9 +51,7 @@ router.post('/', [
         const sessionUser = {
           id: user.rows[0].id,
           name: user.rows[0].name,
-          email: user.rows[0].email,
-          //googleId: user.rows[0].googleId,
-          //image: user.rows[0].image
+          email: user.rows[0].email
       }
         req.session.user = sessionUser
         res.send(sessionUser)
