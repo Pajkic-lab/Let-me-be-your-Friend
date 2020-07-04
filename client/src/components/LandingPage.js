@@ -33,7 +33,7 @@ const LandingPage = ({history}) => {
             if(password === passwordRep) {
                 dispatch(reg({name, email, password}))
             } else {
-                toast.error('PASSWORD DOES NOT MATCH!')
+                toast.error('password does not match')
             }
         }
         setFormData({ ...formData, name:'', email:'', password:'', passwordRep:''})
@@ -55,6 +55,7 @@ const LandingPage = ({history}) => {
 
     if(error !== null) {
         toast.error(error)
+        console.log(error)
     }
 
     return (

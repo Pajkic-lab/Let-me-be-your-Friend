@@ -34,8 +34,8 @@ router.get('/logout', (req, res) => {
 
 
 router.post('/', [
-  check('email', 'email is required').isEmail(),
-  check('password', 'password is required').isLength({min: 6})
+  check('email', 'precise email adres is required').isEmail(),
+  check('password', 'password has to be 6 characters long').isLength({min: 6})
 ], async(req, res)=> {
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
