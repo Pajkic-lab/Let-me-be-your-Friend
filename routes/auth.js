@@ -44,9 +44,12 @@ router.post('/', [
     const {email, password} = await req.body
     try {
       const user = await pool.query("SELECT * FROM users WHERE email = $1", [email])
+        if(user.rows.length < 1) {
+            return res.status(400).json({ error: 'Invalide credentials' })
+        }
       const isMatch = await bcrypt.compare(password, user.rows[0].password)
-         if(!isMatch) {
-            return res.status(400).json({ errors: [{ msg: 'Invalide credentials'}]})
+         if(isMatch !== true) {
+            return res.status(400).json({ error: 'Invalide credentials' })
         }
         const sessionUser = {
           id: user.rows[0].id,

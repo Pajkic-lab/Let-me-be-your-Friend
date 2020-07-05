@@ -19,7 +19,7 @@ async(req, res)=> {
     try {
         const user = await pool.query("SELECT * FROM users WHERE email = $1", [email])
         if(user.rows.length > 0) {
-            return res.status(400).json('USER ALREDY EXISTS')
+            return res.status(400).json({ error: 'user alredy exists' })
         }
         const salt = await bcrypt.genSalt(10)
         const bcryptPassword = await bcrypt.hash(password, salt)

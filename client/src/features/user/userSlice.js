@@ -25,12 +25,16 @@ export const userSlice = createSlice({
             return { ...state, isAuthenticated: true, user: { id, name, email, googleId, image } }
         },
         handleError: (state, action) => {
-            return { ...state, error: action.payload }
+            const err = action.payload
+            return { ...state, error: err }
+        },
+        handleRemoveError: (state) => {
+            return { ...state, error: null }
         }
     }
 })
 
-export const { handleRegister, handleLogin, handleLogout, handleGetuser, handleError } = userSlice.actions 
+export const { handleRegister, handleLogin, handleLogout, handleGetuser, handleError, handleRemoveError } = userSlice.actions 
 
 export const reg = ({name, email, password}) => async dispatch => {
     try {
@@ -68,6 +72,10 @@ export const getUser = () => async dispatch => {
     } catch (err) {
         console.log(err)
     }
+}
+
+export const removeErr = () => dispatch => {
+    dispatch(handleRemoveError())
 }
 
 export const selectUser = state => state.user
