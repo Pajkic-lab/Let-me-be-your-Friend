@@ -5,23 +5,30 @@ const { check, validationResult } = require('express-validator')
 const pool = require('../db')
 const bcrypt = require("bcrypt")
 const { session } = require('passport')
+//url from G credentials
+//http://localhost:5000/auth/google/callback
 
 
 
 // @desc    Auth with Google
 // @route   GET /auth/google
+//http://localhost:5000/auth/google
+//https://probamoheroku2.herokuapp.com/auth/google
 router.get('/google', passport.authenticate('google', { scope: ['profile'] })) 
 
 
 // @desc    Google auth callback
 // @route   GET /auth/google/callback
+//http://localhost:5000/auth/google/callback
+//https://probamoheroku2.herokuapp.com/auth/google/callback
 router.get(
   '/google/callback', 
-  passport.authenticate('google', { failureRedirect: "http://localhost:3000" }),
+  passport.authenticate('google', { failureRedirect: "https://probamoheroku2.herokuapp.com" }), //http://localhost:3000
   (req, res) => {
-    //console.log(res)
     req.session.user = req.user
-    res.redirect("http://localhost:3000/dashboard")
+    //http://localhost:3000/dashboard
+    //https://probamoheroku2.herokuapp.com/dashboard
+    res.redirect("https://probamoheroku2.herokuapp.com/dashboard")
   }
 )
 
