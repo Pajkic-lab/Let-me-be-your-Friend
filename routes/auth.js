@@ -14,21 +14,22 @@ const { session } = require('passport')
 // @route   GET /auth/google
 //http://localhost:5000/auth/google
 //https://probamoheroku2.herokuapp.com/auth/google
-router.get('/google', passport.authenticate('google', { scope: ['profile'] })) 
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] })) 
 
 
 // @desc    Google auth callback
 // @route   GET /auth/google/callback
 //http://localhost:5000/auth/google/callback
-//https://probamoheroku2.herokuapp.com/auth/google/callback
+//http://probamoheroku2.herokuapp.com/auth/google/callback
 router.get(
   '/google/callback', 
   passport.authenticate('google', { failureRedirect: "https://probamoheroku2.herokuapp.com" }), //http://localhost:3000
   (req, res) => {
+    //console.log(req.user)
     req.session.user = req.user
     //http://localhost:3000/dashboard
     //https://probamoheroku2.herokuapp.com/dashboard
-    res.redirect("https://probamoheroku2.herokuapp.com/dashboard")
+    res.redirect("http://localhost:3000/dashboard")
   }
 )
 

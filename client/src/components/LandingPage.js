@@ -64,7 +64,7 @@ const LandingPage = ({history}) => {
             { switcher===true? (
             <Fragment>
             <h1>LOGIN</h1> <br/> <br/>
-            <a href="https://probamoheroku2.herokuapp.com/auth/google">GOOGLE</a>
+            <a href="http://localhost:5000/auth/google">GOOGLE</a>
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>
                 <input onChange={onChange} placeholder='password' name='password' value={password} required /><br/> <br/>
@@ -91,6 +91,9 @@ const LandingPage = ({history}) => {
         </div>
     )
 }
+
+//http://localhost:5000/auth/google
+//https://probamoheroku2.herokuapp.com/auth/google
 
 export default LandingPage
 
