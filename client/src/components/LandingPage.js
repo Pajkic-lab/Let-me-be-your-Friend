@@ -55,7 +55,7 @@ const LandingPage = ({history}) => {
 
     if(error !== null) {
         toast.error(error)
-        setTimeout(()=> { dispatch(removeErr()) }, 500);
+        setTimeout(()=> { dispatch(removeErr()) }, 500)
     }
 
     return (
@@ -75,7 +75,7 @@ const LandingPage = ({history}) => {
             (
             <Fragment>
             <h1>REGISTER</h1> <br/> <br/>
-            <a  href="http://localhost:5000/auth/google">GOOGLE</a>
+            <a  href="https://probamoheroku2.herokuapp.com/auth/google">GOOGLE</a>
             <form onSubmit={onSubmit}>
                 <input onChange={onChange} placeholder='name' name='name' value={name} required /><br/>
                 <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>

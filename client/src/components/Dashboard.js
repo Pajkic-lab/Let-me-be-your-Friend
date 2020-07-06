@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { remove } from '../features/user/userSlice'
 import { getUser } from '../features/user/userSlice'
+import Profile from './Profile'
 
 const Dashboard = () => {
 
@@ -14,9 +14,7 @@ const Dashboard = () => {
 
     return (
         <div>
-            <Fragment>
-                <button onClick={()=>dispatch(remove())}>LogOut</button>
-            </Fragment>
+            <Profile />
         </div>
     )
 }
