@@ -9,6 +9,14 @@ CREATE TABLE users (
  image VARCHAR(300)
  );
 
+CREATE TABLE profiles (
+ id serial PRIMARY KEY,
+ user_id int REFERENCES users(id),
+ name VARCHAR(100),
+ status VARCHAR(100),
+ avatar VARCHAR(200)
+ );
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
 	"sess" json NOT NULL,

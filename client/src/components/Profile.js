@@ -1,17 +1,22 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectUser, remove } from '../features/user/userSlice'
+import { createProfile, selectProfile, removeProfile } from '../features/profile/profileSlice'
 const isImageUrl = require('is-image-url')
+const spiner = require ('../spiner.gif')
 
 const Profile = () => {
 
-    const{ user } = useSelector(selectUser)
-    const avatarGoogle = user.image? (user.image) : ('')
-    const avatarGeneric = 'https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png'
+    const profile = useSelector(selectProfile)
+
+    const { user } = useSelector(selectUser)
+    const id = user.id
+    const avatarGeneric = user.image? (user.image) :
+    ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
 
     const [formData, setFormData] = useState({
         name: '',
-        avatar: `${avatarGoogle}`,
+        avatar: `${avatarGeneric}`,
         status: ''
     })
 
@@ -26,25 +31,29 @@ const Profile = () => {
     const onSubmit = e => {
         e.preventDefault()
         if(avatar === '' || isImageUrl(avatar) === false) {
-            //dispatch(createProfile({name, status, avatarGeneric}))
+            dispatch(createProfile({id, name, status,
+                 avatar:'https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png'
+                }))  //generic avatar
+            //mozda kasnije napisem toast
         } else {
-            //dispatch(createProfile({name, status, avatar}))
+            dispatch(createProfile({id, name, status, avatar}))
         }
+        setFormData({ name: '', avatar: '', status: '' })
     }
 
     return (
         <div>
-            { !user ?  //profile? (profile) : (create profile)
-             <Fragment>
-                 {user.image && <img  src={user.image} alt='' style={{height:'100px'}}></img>}
-                 <h2>{user.name}</h2> 
-                 <h3>{user.email}</h3> 
+            { profile.loading===true ? (<img src={spiner} alt="loading..." />) : (
+                profile.id !== null ?   (<Fragment>
+                 {profile.avatar && <img  src={profile.avatar} alt='' style={{height:'100px'}}></img>}
+                 <h2>{profile.name}</h2> 
+                 <h3>{profile.status}</h3> 
                  <form>
                      <input placeholder='find your friend by email' />
                      <button>Search</button>
                  </form> <br/>
-             </Fragment> : 
-             <Fragment>
+             </Fragment>) :     
+             (<Fragment>
                  <h1>Create profile</h1>
                  <form onSubmit={onSubmit}>
                      <p>few words about yourself XD</p> <br/>
@@ -57,12 +66,15 @@ const Profile = () => {
                  <h2>{name}</h2>
                  <p>{status}</p>
                 <br/> <br/>
-             </Fragment>
-            }
+             </Fragment>)
+            )}
 
-            <button onClick={()=>dispatch(remove())}>LogOut</button>
+            <button onClick={()=>{
+                dispatch(remove())
+                dispatch(removeProfile())
+                }}>LogOut</button>
             <hr/>
-
+            
         </div>
     )
 }

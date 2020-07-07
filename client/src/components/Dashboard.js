@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getUser } from '../features/user/userSlice'
+import { getProfile } from '../features/profile/profileSlice'
+
 import Profile from './Profile'
 
 const Dashboard = () => {
@@ -9,7 +11,7 @@ const Dashboard = () => {
 
     useEffect(()=>{
         dispatch(getUser())
-        //dispatch(getProfile())
+        dispatch(getProfile())
         // eslint-disable-next-line
     },[])
 
@@ -21,3 +23,5 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+
