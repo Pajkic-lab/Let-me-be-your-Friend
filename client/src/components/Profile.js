@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectUser, remove } from '../features/user/userSlice'
-import { createProfile, selectProfile, removeProfile } from '../features/profile/profileSlice'
+import { createProfile, selectProfile, removeProfile, editProfile } from '../features/profile/profileSlice'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -10,17 +10,18 @@ const Profile = () => {
     const profile = useSelector(selectProfile)
 
     const { user } = useSelector(selectUser)
-    const id = user.id
+    
     const avatarGeneric = user.image? (user.image) :
     ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
 
     const [formData, setFormData] = useState({
         name: '',
         avatar: `${avatarGeneric}`,
-        status: ''
+        status: '',
+        switcher: false
     })
 
-    const { name, avatar, status } = formData
+    const { name, avatar, status, switcher } = formData
 
     const dispatch = useDispatch()
 
@@ -31,30 +32,61 @@ const Profile = () => {
     const onSubmit = e => {
         e.preventDefault()
         if(avatar === '' || isImageUrl(avatar) === false) {
-            dispatch(createProfile({id, name, status,
+            dispatch(createProfile({name, status,
                  avatar:'https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png'
                 }))  //generic avatar
             //mozda kasnije napisem toast
         } else {
-            dispatch(createProfile({id, name, status, avatar}))
+            dispatch(createProfile({name, status, avatar}))
         }
-        setFormData({ name: '', avatar: '', status: '' })
+        setFormData({...formData, name: '', avatar: '', status: '' })
+    }
+
+    const onEdit = e => {
+        e.preventDefault()
+        if(avatar === '' || isImageUrl(avatar) === false) {
+            dispatch(editProfile({name, status,
+                 avatar:'https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png'
+                })) 
+        } else {
+            dispatch(editProfile({name, status, avatar}))
+        }
+        setFormData({ ...formData, name: '', avatar: '', status: '', switcher: false })
     }
 
     return (
         <div>
-            { profile.loading===true ? (<img src={spiner} alt="loading..." />) : (
-                profile.id !== null ?   (<Fragment>
+            { profile.loading===true ? (<img src={spiner} alt="loading..." />) : ( 
+                profile.id !== null ?   (<Fragment>  
                  {profile.avatar && <img  src={profile.avatar} alt='' style={{height:'100px'}}></img>}
                  <h2>{profile.name}</h2> 
                  <h3>{profile.status}</h3> 
-                 <form>
-                     <input placeholder='find your friend by email' />
-                     <button>Search</button>
-                 </form> <br/>
+                 <button onClick={()=>{setFormData({ ...formData, switcher: !switcher })}}>Edit profile</button>
+                 { switcher===true? ( <>
+                     <form onSubmit={onEdit} >
+                     <p>Edit profile</p> <br/>
+                     <input onChange={onChange} name='name' value={name} placeholder='dispaly name' required /> <br/>
+                     <input onChange={onChange} name='avatar' value={avatar} placeholder='link of image of your avatar' /> <br/>
+                     <input onChange={onChange} name='status' value={status} placeholder='status' /> <br/>
+                     <button>Submit</button>
+                 </form> 
+                 { avatar!==''? (<img alt='' src={avatar} style={{width: '400px', height:'400px'}}></img>): ('')} <br/>
+                 <p>{name}</p>
+                 <p>{status}</p>
+                 </>
+                 ) : (
+                     <>
+                    <br/>
+                    <form>
+                        <input placeholder='find your friend by email' />
+                        <button>Search</button>
+                    </form> <br/> 
+                    </>
+                 )}
+                 
              </Fragment>) :     
              (<Fragment>
-                 <h1>Create profile</h1>
+                 <h1>Hello {user.name} Create profile</h1>
                  <form onSubmit={onSubmit}>
                      <p>few words about yourself XD</p> <br/>
                      <input onChange={onChange} name='name' value={name} placeholder='dispaly name' required /> <br/>
