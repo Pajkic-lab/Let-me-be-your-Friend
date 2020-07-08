@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectUser, remove } from '../features/user/userSlice'
-import { createProfile, selectProfile, removeProfile, editProfile } from '../features/profile/profileSlice'
+import { createProfile, selectProfile, removeProfile, editProfile, findProfile } from '../features/profile/profileSlice'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
+
+
 
 const Profile = () => {
 
@@ -18,10 +20,11 @@ const Profile = () => {
         name: '',
         avatar: `${avatarGeneric}`,
         status: '',
-        switcher: false
+        switcher: false,
+        search: ''
     })
 
-    const { name, avatar, status, switcher } = formData
+    const { name, avatar, status, switcher, search } = formData
 
     const dispatch = useDispatch()
 
@@ -54,6 +57,12 @@ const Profile = () => {
         setFormData({ ...formData, name: '', avatar: '', status: '', switcher: false })
     }
 
+    const onSearch = e => {
+        e.preventDefault()
+        dispatch(findProfile(search))
+        setFormData({ ...formData, search: '' })
+    }
+
     return (
         <div>
             { profile.loading===true ? (<img src={spiner} alt="loading..." />) : ( 
@@ -78,8 +87,8 @@ const Profile = () => {
                      <>
                     <br/>
                     <form>
-                        <input placeholder='find your friend by email' />
-                        <button>Search</button>
+                        <input onChange={onChange} name='search' value={search} placeholder='find your friend by email' type='email' required />
+                        <button onClick={onSearch}>Search</button>
                     </form> <br/> 
                     </>
                  )}

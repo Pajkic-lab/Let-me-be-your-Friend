@@ -23,7 +23,7 @@ export const profileSlice = createSlice({
         },
 
         handleRemoveProfile: (state) => {
-            return { ...state, id: null, name: null, avatar: null, status: null, loading: true }
+            return { ...state, id: null, name: null, avatar: null, status: null, err: null, loading: true }
         },
 
         handleError: (state, action) => {
@@ -66,6 +66,10 @@ export const removeProfile = () => dispatch => {
 export const editProfile = ({name, status, avatar}) => async dispatch => {
     const res = await axios.put('/profile', {name, status, avatar})
     dispatch(handleEditProfile(res.data))
+}
+
+export const findProfile = search => async dispatch => {
+    const res = await axios.post('/search', {search})
 }
 
 export const selectProfile = state => state.profile
