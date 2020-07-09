@@ -12,6 +12,7 @@ const Profile = () => {
     const profile = useSelector(selectProfile)
 
     const { user } = useSelector(selectUser)
+    const {email} = user
     
     const avatarGeneric = user.image? (user.image) :
     ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
@@ -35,12 +36,12 @@ const Profile = () => {
     const onSubmit = e => {
         e.preventDefault()
         if(avatar === '' || isImageUrl(avatar) === false) {
-            dispatch(createProfile({name, status,
+            dispatch(createProfile({email, name, status,
                  avatar:'https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png'
                 }))  //generic avatar
             //mozda kasnije napisem toast
         } else {
-            dispatch(createProfile({name, status, avatar}))
+            dispatch(createProfile({email, name, status, avatar}))
         }
         setFormData({...formData, name: '', avatar: '', status: '' })
     }
@@ -87,7 +88,7 @@ const Profile = () => {
                      <>
                     <br/>
                     <form>
-                        <input onChange={onChange} name='search' value={search} placeholder='find your friend by email' type='email' required />
+                        <input onChange={onChange} name='search' value={search} placeholder='find your friend by email' required />
                         <button onClick={onSearch}>Search</button>
                     </form> <br/> 
                     </>

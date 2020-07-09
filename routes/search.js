@@ -4,10 +4,15 @@ const pool = require('../db')
 
 
 router.post('/', async(req, res)=> {
-    const email = req.body.search
-    console.log(req.session.user.id)
-    console.log(email)
+    const search = req.body.search
+    const id = req.session.user.id
+    console.log(id)
+    const newProfile = await pool.query("SELECT * FROM profiles WHERE name LIKE $1 OR email LIKE $2", [`%${search}%`, `%${search}%`]) 
+    const searchResult = newProfile.rows.filter(profile => profile.user_id !== id)
+    res.send(searchResult)
 })
 
 
 module.exports = router
+
+//"SELECT * FROM users WHERE first_name || ' ' || last_name ILIKE $1",[`%${name}%`]

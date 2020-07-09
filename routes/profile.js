@@ -4,12 +4,12 @@ const pool = require('../db')
 
 
 router.post('/', async(req, res)=> {
-    const {name, status, avatar} = req.body
+    const {email, name, status, avatar} = req.body
     const id = req.session.user.id
     try {
         const newProfile = await pool.query(
-            "INSERT INTO profiles (user_id, name, status, avatar) VALUES($1, $2, $3, $4) RETURNING *",
-             [id, name, status, avatar]
+            "INSERT INTO profiles (user_id, name, status, avatar, email) VALUES($1, $2, $3, $4, $5) RETURNING *",
+             [id, name, status, avatar, email]
              )
         const profile = {
             id: newProfile.rows[0].id,
@@ -17,7 +17,6 @@ router.post('/', async(req, res)=> {
             status: newProfile.rows[0].status,
             avatar: newProfile.rows[0].avatar,
         }
-        console.log(profile)
         res.send(profile)
     } catch (err) {
         console.log(err)

@@ -14,7 +14,8 @@ CREATE TABLE profiles (
  user_id int REFERENCES users(id),
  name VARCHAR(100),
  status VARCHAR(100),
- avatar VARCHAR(200)
+ avatar VARCHAR(200),
+ email VARCHAR(100)
  );
 
 CREATE TABLE "session" (
