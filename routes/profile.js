@@ -59,5 +59,19 @@ router.put('/', async(req, res)=> {
     }
 })
 
+router.post('/contact', async(req, res)=> {
+    const guestProfile_id = req.body.guestProfile_id
+    const profile = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [guestProfile_id])
+    const guestProfile = {
+        id: profile.rows[0].id,
+        user_id: profile.rows[0].user_id,
+        name: profile.rows[0].name,
+        status: profile.rows[0].status,
+        avatar: profile.rows[0].avatar,
+        email: profile.rows[0].email
+    }
+    res.send(guestProfile)
+})
+
 module.exports = router
 

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectUser, remove } from '../features/user/userSlice'
 import { createProfile, selectProfile, removeProfile, editProfile, findProfile } from '../features/profile/profileSlice'
+import { Link } from 'react-router-dom'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -13,7 +14,7 @@ const Profile = () => {
     const searchResult = profile.search
 
     const { user } = useSelector(selectUser)
-    const { email } = user
+    const { email } = user 
     
     const avatarGeneric = user.image? (user.image) :
     ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
@@ -94,11 +95,13 @@ const Profile = () => {
                     </form> <br/>
 
                     <>
-                        { searchResult && searchResult.map(guestProfile=>  <a href={`/contact/${guestProfile.id}`}><div key={guestProfile.id}>
+                        { searchResult && searchResult.map(guestProfile=> <Link to={`/contact/${guestProfile.user_id}`}> 
+                        <div key={guestProfile.id}>
                             <img src={guestProfile.avatar} alt='' style={{width: '50px', height:'50px'}}></img>
                             <p>{guestProfile.name}</p>
                             <p>{guestProfile.email}</p> 
-                        </div></a>
+                        </div>
+                        </Link>
                         )}
                     </>
                     </>

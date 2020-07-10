@@ -17,7 +17,7 @@ export const userSlice = createSlice({
             const { name, email, id, googleId, image } = action.payload
             return { ...state, isAuthenticated: true, user: { id, name, email, googleId, image } }
         },
-        handleLogout: (state, action) => {
+        handleLogout: (state) => {
             return { ...state, isAuthenticated: false, user: null }
         },
         handleGetuser: (state, action) => {
@@ -34,7 +34,7 @@ export const userSlice = createSlice({
     }
 })
 
-export const { handleRegister, handleLogin, handleLogout, handleGetuser, handleError, handleRemoveError } = userSlice.actions 
+export const { handleRegister, handleLogin, handleLogout, handleGetuser, handleError, handleRemoveError, tempSetUser } = userSlice.actions 
 
 export const reg = ({name, email, password}) => async dispatch => {
     try {
