@@ -61,11 +61,3 @@ router.put('/', async(req, res)=> {
 
 module.exports = router
 
-//profiles
-// user_id   name    status    avatar
-/*
-const updateTodo = await pool.query(
-      "UPDATE todos SET description = $1 WHERE todo_id = $2 AND user_id = $3 RETURNING *",
-      [description, id, req.user.id]
-    ); 
-*/

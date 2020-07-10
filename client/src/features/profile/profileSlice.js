@@ -39,7 +39,7 @@ export const profileSlice = createSlice({
 
         handleSearch: (state, action) => {
             const searchResult = action.payload
-            return { ...state, search: searchResult, loading: false}
+            return { ...state, search: searchResult }
         }
     }
 })
@@ -84,11 +84,3 @@ export const selectProfile = state => state.profile
 
 export default profileSlice.reducer
 
-/*
-{
-[0]   id: 1,
-[0]   name: 'Marko Pajkic',
-[0]   status: 'developing',
-[0]   avatar: 'https://worlddatingguides.com/wp-content/uploads/2019/10/meet-single-girls-near-you-belgrade-get-laid-nightclubs-bars.jpg'
-[0] }
- */

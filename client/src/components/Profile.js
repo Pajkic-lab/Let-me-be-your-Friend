@@ -10,9 +10,10 @@ const spiner = require ('../spiner.gif')
 const Profile = () => {
 
     const profile = useSelector(selectProfile)
+    const searchResult = profile.search
 
     const { user } = useSelector(selectUser)
-    const {email} = user
+    const { email } = user
     
     const avatarGeneric = user.image? (user.image) :
     ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
@@ -90,7 +91,16 @@ const Profile = () => {
                     <form>
                         <input onChange={onChange} name='search' value={search} placeholder='find your friend by email' required />
                         <button onClick={onSearch}>Search</button>
-                    </form> <br/> 
+                    </form> <br/>
+
+                    <>
+                        { searchResult && searchResult.map(guestProfile=>  <a href={`/contact/${guestProfile.id}`}><div key={guestProfile.id}>
+                            <img src={guestProfile.avatar} alt='' style={{width: '50px', height:'50px'}}></img>
+                            <p>{guestProfile.name}</p>
+                            <p>{guestProfile.email}</p> 
+                        </div></a>
+                        )}
+                    </>
                     </>
                  )}
                  
