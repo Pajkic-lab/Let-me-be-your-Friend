@@ -1,26 +1,40 @@
 import React, { useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGuestProfile, selectProfile } from '../features/profile/profileSlice'
+//import { withRouter } from "react-router"
+import { getGuestProfile, selectContact } from '../features/contact/contactSlice'
+const spiner = require ('../spiner.gif')
 
 
 const Contact = ({match}) => {
 
-    const guestProfile_id = match.params.guestProfile_id
+    const {guestProfile_id} = match.params
 
     const dispatch = useDispatch()
 
-    const profile = useSelector(selectProfile)
-    const { guestProfile } = profile
-    console.log(guestProfile)
+    const contact = useSelector(selectContact)
+    const { guestProfile, loading } = contact
     
     useEffect (()=>{
-        dispatch(getGuestProfile(guestProfile_id))
+            dispatch(getGuestProfile(guestProfile_id))
         // eslint-disable-next-line
+    },[])
+    useEffect (()=>{
+        if(guestProfile === null){
+            dispatch(getGuestProfile(guestProfile_id))
+        }
+    // eslint-disable-next-line
     },[])
 
     return(
         <Fragment>
-            <h1>{guestProfile && guestProfile.name}</h1>
+           {loading===true? (<img src={spiner} alt="loading..." />) : (
+               <>
+               <h2>{guestProfile.name}</h2>
+               <p>{guestProfile.email}</p>
+               <p>{guestProfile.status}</p>
+               <img alt='' src={guestProfile.avatar} style={{width: '200px', height:'200px'}}></img>
+               </>
+           )}
         </Fragment>
     )
     

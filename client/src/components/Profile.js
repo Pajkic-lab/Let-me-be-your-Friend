@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectUser, remove } from '../features/user/userSlice'
-import { createProfile, selectProfile, removeProfile, editProfile, findProfile } from '../features/profile/profileSlice'
+import { createProfile, selectProfile, removeProfile, editProfile, findProfile, removeSearch } from '../features/profile/profileSlice'
 import { Link } from 'react-router-dom'
+import { selectContact, removeGuestProfile } from '../features/contact/contactSlice'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -10,11 +11,18 @@ const spiner = require ('../spiner.gif')
 
 const Profile = () => {
 
+    const dispatch = useDispatch()
+
     const profile = useSelector(selectProfile)
     const searchResult = profile.search
 
     const { user } = useSelector(selectUser)
     const { email } = user 
+
+    const { guestProfile } =useSelector(selectContact)
+    if ( guestProfile !== null) {
+        dispatch(removeGuestProfile())
+    }
     
     const avatarGeneric = user.image? (user.image) :
     ('https://w0.pngwave.com/png/613/636/computer-icons-user-profile-male-avatar-avatar-png-clip-art.png') //generic avatar
@@ -28,8 +36,6 @@ const Profile = () => {
     })
 
     const { name, avatar, status, switcher, search } = formData
-
-    const dispatch = useDispatch()
 
     const onChange = e => {setFormData({
         ...formData, [e.target.name]: e.target.value
@@ -95,13 +101,13 @@ const Profile = () => {
                     </form> <br/>
 
                     <>
-                        { searchResult && searchResult.map(guestProfile=> <Link to={`/contact/${guestProfile.user_id}`}> 
-                        <div key={guestProfile.id}>
+                        { searchResult && searchResult.map(guestProfile=>  
+                        <div key={guestProfile.id}><Link to={`/contact/${guestProfile.user_id}`} onClick={()=>dispatch(removeSearch())}>
                             <img src={guestProfile.avatar} alt='' style={{width: '50px', height:'50px'}}></img>
                             <p>{guestProfile.name}</p>
-                            <p>{guestProfile.email}</p> 
+                            <p>{guestProfile.email}</p> </Link>
                         </div>
-                        </Link>
+                        
                         )}
                     </>
                     </>

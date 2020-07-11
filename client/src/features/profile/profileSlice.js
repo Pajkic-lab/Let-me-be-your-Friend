@@ -10,8 +10,7 @@ export const profileSlice = createSlice({
         status: null,
         loading: true,
         err: null,
-        search: [],
-        guestProfile: null
+        search: []
     },
     reducers: {
         handleCreateProfile: (state, action) => {
@@ -24,7 +23,7 @@ export const profileSlice = createSlice({
         },
         handleRemoveProfile: (state) => {
             return { ...state, id: null, name: null, avatar: null, status: null,
-                 err: null, search: null, guestProfile: null, loading: true }
+                 err: null, search: null, loading: true }
         },
         handleError: (state, action) => {
             const err = action.payload
@@ -38,15 +37,14 @@ export const profileSlice = createSlice({
             const searchResult = action.payload
             return { ...state, search: searchResult }
         },
-        handleGuestProfile: (state, action) => {
-            const guestProfile = action.payload
-            return { ...state, guestProfile: guestProfile }
+        handleRemoveSearch: state => {
+            return { ...state, search: [] }
         }
     }
 })
 
 export const { handleCreateProfile, handleGetProfile, handleRemoveProfile,
-     handleError, handleEditProfile, handleSearch, handleGuestProfile } = profileSlice.actions
+     handleError, handleEditProfile, handleSearch, handleGuestProfile, handleRemoveSearch } = profileSlice.actions
 
 export const createProfile = ({email, name, status, avatar}) => async dispatch => {
     try {
@@ -81,14 +79,10 @@ export const findProfile = search => async dispatch => {
     dispatch(handleSearch(res.data))
 }
 
-export const getGuestProfile = (guestProfile_id) => async dispatch => {
-    try {
-        const res = await axios.post('/profile/contact', {guestProfile_id})
-        dispatch(handleGuestProfile(res.data))
-    } catch (err) {
-        console.log(err)
-    }
+export const removeSearch = () => dispatch => {
+    dispatch(handleRemoveSearch())
 }
+
 
 export const selectProfile = state => state.profile
 
