@@ -79,6 +79,8 @@ const Profile = () => {
                  {profile.avatar && <img  src={profile.avatar} alt='' style={{height:'100px'}}></img>}
                  <h2>{profile.name}</h2> 
                  <h3>{profile.status}</h3> 
+                 <span>following: 12 </span>
+                 <span>followers: 98 </span> <br/>
                  <button onClick={()=>{setFormData({ ...formData, switcher: !switcher })}}>Edit profile</button>
                  { switcher===true? ( <>
                      <form onSubmit={onEdit} >
@@ -141,15 +143,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-/*
-    profile: {
-        name: '',
-        avatar: '',
-        status: ''
-    }
-
-    { image!==''? (<img alt='' src={image} style={{width: '100', height:'100'}}></img>): ('')}
-*/
-
-//  user    name    avatar    status    ||    id    user    folowing\number   ||    id    user    followers\number

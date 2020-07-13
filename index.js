@@ -43,6 +43,7 @@ if(process.env.NODE_ENV === "production") {
   app.use('/getuser', require('./routes/getuser'))
   app.use('/profile', require('./routes/profile'))
   app.use('/search', require('./routes/search'))
+  app.use('/social', require('./routes/social'))
 
 
   app.get("*", (req, res) => {

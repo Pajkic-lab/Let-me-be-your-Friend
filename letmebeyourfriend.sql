@@ -18,6 +18,12 @@ CREATE TABLE profiles (
  email VARCHAR(100)
  );
 
+CREATE TABLE social (
+ id serial PRIMARY KEY,
+ user_id int REFERENCES users(id),
+ following int REFERENCES users(id)
+ );
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
 	"sess" json NOT NULL,
