@@ -4,6 +4,7 @@ import { selectUser, remove } from '../features/user/userSlice'
 import { createProfile, selectProfile, removeProfile, editProfile, findProfile, removeSearch } from '../features/profile/profileSlice'
 import { Link } from 'react-router-dom'
 import { selectContact, removeGuestProfile } from '../features/contact/contactSlice'
+import { selectSocial, removeSocial } from '../features/social/socialSlice'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -12,6 +13,9 @@ const spiner = require ('../spiner.gif')
 const Profile = () => {
 
     const dispatch = useDispatch()
+
+    const social = useSelector(selectSocial)
+    const { isLoading, followingNumber, followersNumber} = social
 
     const profile = useSelector(selectProfile)
     const searchResult = profile.search
@@ -78,9 +82,14 @@ const Profile = () => {
                 profile.id !== null ?   (<Fragment>  
                  {profile.avatar && <img  src={profile.avatar} alt='' style={{height:'100px'}}></img>}
                  <h2>{profile.name}</h2> 
-                 <h3>{profile.status}</h3> 
-                 <span>following: 12 </span>
-                 <span>followers: 98 </span> <br/>
+                 <h3>{profile.status}</h3> {
+                     isLoading===true? ('Loading...') : (
+                         <>
+                        <span>following: {followingNumber} </span>
+                        <span>followers: {followersNumber} </span> <br/>
+                        </>
+                     )
+                 }
                  <button onClick={()=>{setFormData({ ...formData, switcher: !switcher })}}>Edit profile</button>
                  { switcher===true? ( <>
                      <form onSubmit={onEdit} >
@@ -135,6 +144,7 @@ const Profile = () => {
             <button onClick={()=>{
                 dispatch(remove())
                 dispatch(removeProfile())
+                dispatch(removeSocial())
                 }}>LogOut</button>
             <hr/>
             

@@ -7,12 +7,7 @@ router.post('/', async(req, res)=> {
     const foll = req.body.guestProfile_id
     const id = req.session.user.id
     try {
-        const newFollower = await pool.query("INSERT INTO social (user_id, following) VALUES($1, $2) RETURNING *", [id, foll])
-        const social = {
-            user_id: newFollower.rows[0].user_id,
-            following: newFollower.rows[0].following
-        }
-        console.log(social)
+        await pool.query("INSERT INTO social (user_id, following) VALUES($1, $2) RETURNING *", [id, foll])
         res.send(true)
     } catch (err) {
         console.log(err)
@@ -24,7 +19,6 @@ router.post('/get', async(req, res)=> {
     const id = req.session.user.id
     try {
         const newFollower = await pool.query("SELECT * FROM social WHERE user_id = $1 AND following = $2", [id, foll])
-        console.log(newFollower.rows[0])
         if(newFollower.rows.length > 0) {
             res.send(true)
         } else {
@@ -39,9 +33,25 @@ router.delete('/', async(req, res)=> {
     const foll = req.body.guestProfile_id
     const id = req.session.user.id
     try {
-        const newFollower = await pool.query("DELETE FROM social WHERE user_id = $1 AND following = $2", [id, foll]) 
-        console.log(newFollower)
+        await pool.query("DELETE FROM social WHERE user_id = $1 AND following = $2", [id, foll]) 
         res.send(false)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+router.get('/getnumber', async(req, res)=> {
+    const id = req.session.user.id
+    try {
+        const newFollower = await pool.query("SELECT * FROM social WHERE user_id = $1", [id])
+        const followingNumber = newFollower.rows.length
+        const newFollowe = await pool.query("SELECT * FROM social WHERE following = $1", [id])
+        const followersNumber = newFollowe.rows.length
+        const data = {
+            followingNumber,
+            followersNumber
+        }
+        res.send(data)
     } catch (err) {
         console.log(err)
     }
@@ -49,7 +59,3 @@ router.delete('/', async(req, res)=> {
 
 
 module.exports = router
-
-
-//id       user(id)             following(user_id)
-//1           sam@                srbijav93@
