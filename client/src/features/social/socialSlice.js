@@ -7,7 +7,9 @@ export const socialSlice = createSlice({
         isLoading: true,
         following: false,
         followingNumber: null,
-        followersNumber: null
+        followersNumber: null,
+        contactFollowingNumber: null,
+        contactFollowersNumber: null
     },
     reducers: {
         handleFollow: (state, action)=> {
@@ -24,12 +26,19 @@ export const socialSlice = createSlice({
             return{ ...state, followingNumber, followersNumber, isLoading: false }
         },
         handleRemoveSocial: state => {
-            return{ ...state, isLoading: true, following: false, followingNumber: null, followersNumber: null }
+            return{ ...state, isLoading: true, following: false, followingNumber: null,
+                 followersNumber: null, contactFollowingNumber: null, contactFollowersNumber: null }
+        },
+        handleGetGuestSocNum : (state, action)=> {
+            const {ContactfollowingNumber, ContactfollowersNumber} = action.payload
+            return { ...state, contactFollowingNumber: ContactfollowingNumber,
+                 contactFollowersNumber: ContactfollowersNumber, isLoading: false }
         }
     }
 })
 
-export const { handleFollow, handleGetFollow, handleUnFollow, handleGetSocNum, handleRemoveSocial } = socialSlice.actions
+export const { handleFollow, handleGetFollow, handleUnFollow, handleGetSocNum,
+     handleRemoveSocial, handleGetGuestSocNum } = socialSlice.actions
 
 export const follow = guestProfile_id => async dispatch => {
     const res = await axios.post('/social', {guestProfile_id})
@@ -53,6 +62,11 @@ export const getSocNum = () => async dispatch => {
 
 export const removeSocial = () => dispatch => {
     dispatch(handleRemoveSocial())
+}
+
+export const getGuestSocNum = guestProfile_id => async dispatch => {
+    const res = await axios.post('/social/getguestnumber', {guestProfile_id})
+    dispatch(handleGetGuestSocNum(res.data))
 }
 
 export const selectSocial = state => state.social

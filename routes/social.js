@@ -57,5 +57,22 @@ router.get('/getnumber', async(req, res)=> {
     }
 })
 
+router.post('/getguestnumber', async(req, res)=> {
+    const id = req.body.guestProfile_id
+    try {
+        const newFollower = await pool.query("SELECT * FROM social WHERE user_id = $1", [id])
+        const ContactfollowingNumber = newFollower.rows.length
+        const newFollowe = await pool.query("SELECT * FROM social WHERE following = $1", [id])
+        const ContactfollowersNumber = newFollowe.rows.length
+        const data = {
+            ContactfollowingNumber,
+            ContactfollowersNumber
+        }
+        res.send(data)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 
 module.exports = router
