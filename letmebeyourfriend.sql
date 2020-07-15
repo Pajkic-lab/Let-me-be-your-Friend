@@ -24,6 +24,14 @@ CREATE TABLE social (
  following int REFERENCES users(id)
  );
 
+CREATE TABLE posts (
+ id serial PRIMARY KEY,
+ user_id int REFERENCES users(id),
+ text VARCHAR(100),
+ image VARCHAR(200),
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
 	"sess" json NOT NULL,
@@ -32,3 +40,4 @@ CREATE TABLE "session" (
 WITH (OIDS=FALSE);
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+
