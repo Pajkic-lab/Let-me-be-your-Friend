@@ -24,8 +24,14 @@ router.post('/', async(req, res)=> {
 router.get('/', async(req, res)=> {
     const id = req.session.user.id
     try {
-        const newPost = await pool.query("SELECT * FROM posts WHERE user_id = $1", [id])
-        const posts = newPost.rows
+        const newFollowers = await pool.query("SELECT following FROM social WHERE user_id = $1", [id])
+        let follo = newFollowers.rows.map(fol=> fol.following)
+        follo.push(id)
+        // za svaki follo vrati i profil
+
+        var contactPosts = await pool.query('SELECT * FROM posts WHERE user_id = ANY($1::int[])',[follo])
+        const posts = contactPosts.rows
+
         res.send(posts)
     } catch (err) {
         console.log(err)
