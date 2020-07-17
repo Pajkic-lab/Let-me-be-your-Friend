@@ -5,14 +5,16 @@ export const postSlice = createSlice({
     name: 'post',
     initialState: {
         loading: true,
-        posts: []
+        posts: [],
+        profiles: []
     },
     reducers: {
         handleCreatePost: (state, action)=> {
             return { ...state, posts: state.posts.concat(action.payload), loading: false }
         },
         handleGetPosts: (state, action)=> {
-            return { ...state, posts: action.payload, loading: false}
+            const {posts, profiles} = action.payload
+            return { ...state, posts: posts, profiles: profiles, loading: false}
         },
         handleDeletePost: (state, action)=> {
             return { ...state, posts: state.posts.filter(pos=> pos.id !== action.payload.id )}
