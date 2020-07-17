@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createPost } from '../features/post/postSlice'
+const isImageUrl = require('is-image-url')
 
 const CreatePost = () => {
 
@@ -19,7 +20,11 @@ const CreatePost = () => {
 
     const onSubmit = e => {
         e.preventDefault()
-        dispatch(createPost({text, image}))
+        if(isImageUrl(image) === false) {
+            window.alert('Your post image URL is not valid!')
+        } else {
+            dispatch(createPost({text, image}))
+        }
         setFormData({ ...formData, text: '', image: '' })
     }
 
