@@ -29,8 +29,9 @@ export const createPost = ({text, image}) => async dispatch => {
     dispatch(handleCreatePost(res.data))
 }
 
-export const getPosts = () => async dispatch => {
-    const res = await axios.get('/post')
+export const getPosts = ({count, start}) => async dispatch => {
+    console.log(count, start)
+    const res = await axios.get(`/post?count=${count}&start=${start}`)
     dispatch(handleGetPosts(res.data))
 }
 
@@ -41,4 +42,4 @@ export const deletePost = id => async dispatch => {
 
 export const selectPost = state => state.post
 
-export default postSlice.reducer
+export default postSlice.reducer 

@@ -20,8 +20,10 @@ const CreatePost = () => {
 
     const onSubmit = e => {
         e.preventDefault()
-        if(isImageUrl(image) === false) {
-            window.alert('Your post image URL is not valid!')
+        if (isImageUrl(image) === false) {
+            if (image === '') {} else window.alert('Your post image URL is not valid!')
+        } if (image === '') {
+            dispatch(createPost({text, image}))
         } else {
             dispatch(createPost({text, image}))
         }

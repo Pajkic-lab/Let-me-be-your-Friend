@@ -18,7 +18,7 @@ const LandingPage = ({history}) => {
 
     const dispatch = useDispatch()
 
-    const swop = () => {setFormData({...formData, switcher: !switcher })}
+    const swop = () => {setFormData({ ...formData, switcher: !switcher })}
 
     const onChange = e => {setFormData({
         ...formData, 

@@ -13,8 +13,9 @@ const PostDashboard = () => {
     return (
         <div>
             <CreatePost />
+            <PostList />
             { loading===true? (<img src={spiner} alt="loading..." />) :
-             (<PostList />) }
+             ('') }
         </div>
     )
 }

@@ -7,7 +7,8 @@ router.post('/', async(req, res)=> {
     const id = req.session.user.id
     const { text, image } = req.body
     try {
-        const newPost = await pool.query("INSERT INTO posts (user_id, text, image) VALUES($1, $2, $3) RETURNING *", [id, text, image])
+        const newPost = await pool.query(
+            "INSERT INTO posts (user_id, text, image) VALUES($1, $2, $3) RETURNING *", [id, text, image])
         const post = {
             id: newPost.rows[0].id,
             user_id: newPost.rows[0].user_id,
@@ -23,20 +24,22 @@ router.post('/', async(req, res)=> {
 
 router.get('/', async(req, res)=> {
     const id = req.session.user.id
+    const count = req.query.count
+    const start = req.query.start
+    console.log(start, count)
     try {
         const newFollowers = await pool.query("SELECT following FROM social WHERE user_id = $1", [id])
         let follo = newFollowers.rows.map(fol=> fol.following)
         follo.push(id)
 
         const contactPosts = await pool.query(
-            'SELECT * FROM posts WHERE user_id = ANY($1::int[]) ORDER BY created_at DESC',[follo]) //ORDER BY created_at ASC/DESC
-        //console.log(contactPosts.rows)
-        const posts = contactPosts.rows
+            'SELECT * FROM posts WHERE user_id = ANY($1::int[]) ORDER BY created_at DESC OFFSET $2 LIMIT $3'
+            ,[follo, start, count]) //ORDER BY created_at ASC/DESC  OFFSET $2 LIMIT $2 `
+        const posts = contactPosts.rows   
 
-        //
+
         const user_id = contactPosts.rows.map(uid => uid.user_id)
         const NewProfile = await pool.query("SELECT * FROM profiles WHERE user_id = ANY($1::int[])",[user_id]) 
-        //console.log(NewProfile.rows)
         const profiles = NewProfile.rows
 
         res.send({posts, profiles})
