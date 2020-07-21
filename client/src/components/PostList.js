@@ -25,13 +25,13 @@ const PostList = () => {
 
     useEffect(()=>{
         dispatch(getPosts({start, count}))
+        setData({ ...data, start: start + count })
         // eslint-disable-next-line
     }, [])
 
     const getDataScroll = async() => {
-        setData({ ...data, start: start + count })     //does not work
-        /*const starT = start + count
-        console.log(starT)*/
+        setData({ ...data, start: start + count })     
+        //console.log(start, count)
         dispatch(getPosts({start, count}))
     }
 
@@ -41,11 +41,10 @@ const PostList = () => {
             dataLength={posts.length}
             next={()=>{getDataScroll()}}
             hasMore={true}
-            loader={<p>Loading...</p>}
+            loader={<p>...</p>}
             >
             {posts && posts.map(postEl=> <div key={postEl.id}>
-                {// profiles.find(profile=> profile.user_id === postEl.user_id).return()
-                 profiles.filter(profile=> profile.user_id === postEl.user_id).map(prof=>  //find
+                { profiles && profiles.filter(profile=> profile.user_id === postEl.user_id).map(prof=> 
                 <div key={uuidv4()}>
                 <p>{prof.name}</p>
                 <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>

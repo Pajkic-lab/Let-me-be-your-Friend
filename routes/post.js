@@ -26,7 +26,6 @@ router.get('/', async(req, res)=> {
     const id = req.session.user.id
     const start = req.query.start
     const count = req.query.count
-    console.log(start, count)
     try {
         const newFollowers = await pool.query("SELECT following FROM social WHERE user_id = $1", [id])
         let follo = newFollowers.rows.map(fol=> fol.following)

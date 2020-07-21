@@ -10,7 +10,7 @@ export const postSlice = createSlice({
     },
     reducers: {
         handleCreatePost: (state, action)=> {
-            return { ...state, posts: state.posts.concat(action.payload), loading: false }
+            return { ...state, posts: [action.payload, ...state.posts], loading: false }
         },
         handleGetPosts: (state, action)=> {
             const {posts, profiles} = action.payload

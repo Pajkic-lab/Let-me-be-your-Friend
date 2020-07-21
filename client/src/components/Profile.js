@@ -113,7 +113,9 @@ const Profile = () => {
 
                     <>
                         { searchResult && searchResult.map(guestProfile=>  
-                        <div key={guestProfile.id}><Link to={`/contact/${guestProfile.user_id}`} onClick={()=>dispatch(removeSearch())}>
+                        <div key={guestProfile.id}><Link
+                         to={`/contact/${guestProfile.user_id}`} 
+                         onClick={()=>dispatch(removeSearch())}>
                             <img src={guestProfile.avatar} alt='' style={{width: '50px', height:'50px'}}></img>
                             <p>{guestProfile.name}</p>
                             <p>{guestProfile.email}</p> </Link>
