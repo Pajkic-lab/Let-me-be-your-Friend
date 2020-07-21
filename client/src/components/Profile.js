@@ -10,7 +10,7 @@ const spiner = require ('../spiner.gif')
 
 
 
-const Profile = () => {
+const Profile = () => { 
 
     const dispatch = useDispatch()
 
@@ -111,18 +111,20 @@ const Profile = () => {
                         <button onClick={onSearch}>Search</button>
                     </form> <br/>
 
-                    <>
+                    { searchResult !==null? ( 
+                        <div className="searchScrollContainer" >
                         { searchResult && searchResult.map(guestProfile=>  
                         <div key={guestProfile.id}><Link
-                         to={`/contact/${guestProfile.user_id}`} 
-                         onClick={()=>dispatch(removeSearch())}>
+                         to={`/contact/${guestProfile.user_id}`}
+                         onClick={()=>dispatch(removeSearch())}> 
                             <img src={guestProfile.avatar} alt='' style={{width: '50px', height:'50px'}}></img>
                             <p>{guestProfile.name}</p>
                             <p>{guestProfile.email}</p> </Link>
                         </div>
-                        
                         )}
-                    </>
+                        </div>
+                    ) : ('')}
+
                     </>
                  )}
                  

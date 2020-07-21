@@ -10,7 +10,7 @@ export const profileSlice = createSlice({
         status: null,
         loading: true,
         err: null,
-        search: []
+        search: null
     },
     reducers: {
         handleCreateProfile: (state, action) => {
@@ -38,7 +38,7 @@ export const profileSlice = createSlice({
             return { ...state, search: searchResult }
         },
         handleRemoveSearch: state => {
-            return { ...state, search: [] }
+            return { ...state, search: null }
         }
     }
 })

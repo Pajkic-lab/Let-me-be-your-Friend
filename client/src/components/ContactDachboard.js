@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGuestProfile, selectContact } from '../features/contact/contactSlice'
 import { selectSocial, follow, getFollow, unFollow, getGuestSocNum } from '../features/social/socialSlice'
 import { Link } from 'react-router-dom'
+import { removePostsProfiles } from '../features/post/postSlice'
 const spiner = require ('../spiner.gif')
 
 
@@ -22,6 +23,7 @@ const Contact = ({match}) => {
             dispatch(getGuestProfile(guestProfile_id))
             dispatch(getFollow(guestProfile_id))
             dispatch(getGuestSocNum(guestProfile_id))
+            dispatch(removePostsProfiles())
         // eslint-disable-next-line
     },[])
     
@@ -57,6 +59,7 @@ const Contact = ({match}) => {
                )}
                </>
            )}
+           <hr/>
         </Fragment>
     )
     

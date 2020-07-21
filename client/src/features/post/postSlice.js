@@ -28,11 +28,14 @@ export const postSlice = createSlice({
         },
         handleDeletePost: (state, action)=> {
             return { ...state, posts: state.posts.filter(pos=> pos.id !== action.payload.id )}
+        },
+        handleRemovePostsProfiles: (state) => {
+            return { ...state, posts: [], profiles: []}
         }
     }
 })
 
-export const { handleCreatePost, handleGetPosts, handleDeletePost } = postSlice.actions
+export const { handleCreatePost, handleGetPosts, handleDeletePost, handleRemovePostsProfiles } = postSlice.actions
 
 export const createPost = ({text, image}) => async dispatch => {
     const res = await axios.post('/post', {text, image})
@@ -47,6 +50,10 @@ export const getPosts = ({start, count}) => async dispatch => {
 export const deletePost = id => async dispatch => {
     const res = await axios.post('/post/del', {id})
     dispatch(handleDeletePost(res.data))
+}
+
+export const removePostsProfiles = () => dispatch => {
+    dispatch(handleRemovePostsProfiles())
 }
 
 export const selectPost = state => state.post

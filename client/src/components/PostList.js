@@ -5,6 +5,7 @@ import { selectUser } from '../features/user/userSlice'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { v4 as uuidv4 } from 'uuid'
+import { Link } from 'react-router-dom'
 
 const PostList = () => {
 
@@ -31,8 +32,7 @@ const PostList = () => {
 
     const getDataScroll = async() => {
         setData({ ...data, start: start + count })     
-        //console.log(start, count)
-        dispatch(getPosts({start, count}))
+        dispatch(getPosts({start, count}))  
     }
 
     return (
@@ -45,9 +45,18 @@ const PostList = () => {
             >
             {posts && posts.map(postEl=> <div key={postEl.id}>
                 { profiles && profiles.filter(profile=> profile.user_id === postEl.user_id).map(prof=> 
-                <div key={uuidv4()}>
-                <p>{prof.name}</p>
-                <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>
+                <div key={uuidv4()}> 
+                { id===prof.user_id? (
+                    <>
+                    <p>{prof.name}</p>
+                    <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>
+                    </>
+                ) : (
+                    <Link to={`/contact/${prof.user_id}`}>
+                    <p>{prof.name}</p>
+                    <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>
+                    </Link>
+                ) }
                 </div>
                 ) }
                 <p>{postEl.text}</p>
