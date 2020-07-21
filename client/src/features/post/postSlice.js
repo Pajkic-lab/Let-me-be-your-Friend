@@ -14,7 +14,17 @@ export const postSlice = createSlice({
         },
         handleGetPosts: (state, action)=> {
             const {posts, profiles} = action.payload
-            return { ...state, posts: posts, profiles: profiles, loading: false}
+            if(state.profiles.length < 1 ) {
+                return { ...state, posts: state.posts.concat(posts),
+                     profiles: state.profiles.concat(profiles) , loading: false }
+            } else {
+                const arr1 = state.profiles.map(profile => profile.user_id)
+                const arr2 = profiles.filter((el) => {
+                    return !arr1.includes(el.user_id)
+                })
+                return { ...state, posts: state.posts.concat(posts),
+                     profiles: state.profiles.concat(arr2) , loading: false }
+            }
         },
         handleDeletePost: (state, action)=> {
             return { ...state, posts: state.posts.filter(pos=> pos.id !== action.payload.id )}
@@ -29,8 +39,7 @@ export const createPost = ({text, image}) => async dispatch => {
     dispatch(handleCreatePost(res.data))
 }
 
-export const getPosts = ({count, start}) => async dispatch => {
-    console.log(count, start)
+export const getPosts = ({start, count}) => async dispatch => {
     const res = await axios.get(`/post?count=${count}&start=${start}`)
     dispatch(handleGetPosts(res.data))
 }
