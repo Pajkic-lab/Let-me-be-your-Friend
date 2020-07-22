@@ -5,7 +5,8 @@ export const contactSlice = createSlice({
     name: 'contact',
     initialState:{
         loading: true,
-        guestProfile: null
+        guestProfile: null,
+        guestPosts: []
     },
     reducers: {
         handleGuestProfile: (state, action) => {
@@ -13,12 +14,15 @@ export const contactSlice = createSlice({
             return { ...state, guestProfile: guestProfile, loading: false }
         },
         handleRemoveGuestProfile: state => {
-            return { ...state, guestProfile: null, loading: true }
+            return { ...state, guestProfile: null, guestPosts: [], loading: true }
+        },
+        handleContactPosts: (state, action) => {
+            return { ...state, guestPosts: state.guestPosts.concat(action.payload)}
         }
     }
 })
 
-export const { handleGuestProfile, handleRemoveGuestProfile } = contactSlice.actions
+export const { handleGuestProfile, handleRemoveGuestProfile, handleContactPosts } = contactSlice.actions
 
 export const getGuestProfile = (guestProfile_id) => async dispatch => {
     try {
@@ -32,6 +36,16 @@ export const getGuestProfile = (guestProfile_id) => async dispatch => {
 export const removeGuestProfile = () => dispatch => {
     dispatch(handleRemoveGuestProfile())
 }
+
+export const getContactPosts = ({guestProfile_id, start, count}) => async dispatch => {
+    try {
+        const res = await axios.post('/post/contact', {guestProfile_id, start, count})
+        dispatch(handleContactPosts(res.data))
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export const selectContact = state => state.contact
 

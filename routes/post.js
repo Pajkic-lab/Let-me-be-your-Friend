@@ -57,4 +57,17 @@ router.post('/del', async(req, res)=> {
     }
 })
 
+router.post('/contact', async(req, res)=> {
+    const {guestProfile_id, start, count} = req.body
+    try {
+        const newContactPosts = await pool.query(
+            "SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC OFFSET $2 LIMIT $3"
+            ,[guestProfile_id, start, count])
+        const contactPosts = newContactPosts.rows
+        res.send(contactPosts)
+    } catch (err) {
+        console.log(object)
+    }
+})
+
 module.exports = router

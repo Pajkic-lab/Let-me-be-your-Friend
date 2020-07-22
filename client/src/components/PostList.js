@@ -6,6 +6,7 @@ import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
+import { removeGuestProfile } from '../features/contact/contactSlice'
 
 const PostList = () => {
 
@@ -27,6 +28,7 @@ const PostList = () => {
     useEffect(()=>{
         dispatch(getPosts({start, count}))
         setData({ ...data, start: start + count })
+        dispatch(removeGuestProfile())
         // eslint-disable-next-line
     }, [])
 
