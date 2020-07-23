@@ -6,36 +6,43 @@ export const postSlice = createSlice({
     initialState: {
         loading: true,
         posts: [],
-        profiles: []
+        profiles: [],
+        likes: []
     },
     reducers: {
         handleCreatePost: (state, action)=> {
             return { ...state, posts: [action.payload, ...state.posts], loading: false }
         },
         handleGetPosts: (state, action)=> {
-            const {posts, profiles} = action.payload
+            const {posts, profiles, likes} = action.payload
             if(state.profiles.length < 1 ) {
                 return { ...state, posts: state.posts.concat(posts),
-                     profiles: state.profiles.concat(profiles) , loading: false }
+                     profiles: state.profiles.concat(profiles),
+                     likes: state.likes.concat(likes), loading: false }
             } else {
                 const arr1 = state.profiles.map(profile => profile.user_id)
                 const arr2 = profiles.filter((el) => {
                     return !arr1.includes(el.user_id)
                 })
                 return { ...state, posts: state.posts.concat(posts),
-                     profiles: state.profiles.concat(arr2) , loading: false }
+                     profiles: state.profiles.concat(arr2),
+                     likes: state.likes.concat(likes), loading: false }
             }
         },
         handleDeletePost: (state, action)=> {
             return { ...state, posts: state.posts.filter(pos=> pos.id !== action.payload.id )}
         },
         handleRemovePostsProfiles: (state) => {
-            return { ...state, posts: [], profiles: []}
+            return { ...state, posts: [], profiles: [], likes: []}
+        },
+        handleLikePost: (state, action) => {
+            return { ...state, likes: state.likes.concat(action.payload) }
         }
     }
 })
 
-export const { handleCreatePost, handleGetPosts, handleDeletePost, handleRemovePostsProfiles } = postSlice.actions
+export const { handleCreatePost, handleGetPosts, handleDeletePost,
+     handleRemovePostsProfiles, handleLikePost } = postSlice.actions
 
 export const createPost = ({text, image}) => async dispatch => {
     const res = await axios.post('/post', {text, image})
@@ -56,6 +63,12 @@ export const removePostsProfiles = () => dispatch => {
     dispatch(handleRemovePostsProfiles())
 }
 
-export const selectPost = state => state.post
+export const likePost = (post_id) => async dispatch => {
+    const res = await axios.post('/likes', {post_id})
+    dispatch(handleLikePost(res.data))
+}
+
+
+export const selectPost = state => state.post 
 
 export default postSlice.reducer 

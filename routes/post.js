@@ -33,15 +33,20 @@ router.get('/', async(req, res)=> {
 
         const contactPosts = await pool.query(
             'SELECT * FROM posts WHERE user_id = ANY($1::int[]) ORDER BY created_at DESC OFFSET $2 LIMIT $3'
-            ,[follo, start, count]) //ORDER BY created_at ASC/DESC  OFFSET $2 LIMIT $2 `
+            ,[follo, start, count]) //ORDER BY created_at ASC/DESC  OFFSET $2 LIMIT $2 
         const posts = contactPosts.rows   
-
 
         const user_id = contactPosts.rows.map(uid => uid.user_id)
         const NewProfile = await pool.query("SELECT * FROM profiles WHERE user_id = ANY($1::int[])",[user_id]) 
         const profiles = NewProfile.rows
 
-        res.send({posts, profiles})
+        const posts_ids = posts.map(post=> post.id) //arr1
+        const newLikes = await pool.query("SELECT * FROM likes WHERE post_id = ANY($1::int[])", [posts_ids])
+        console.log(newLikes.rows)
+            //
+        const likes = newLikes.rows
+
+        res.send({posts, profiles, likes})
     } catch (err) {
         console.log(err)
     }
@@ -69,5 +74,7 @@ router.post('/contact', async(req, res)=> {
         console.log(object)
     }
 })
+
+
 
 module.exports = router

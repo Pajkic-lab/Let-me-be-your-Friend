@@ -5,6 +5,7 @@ import contactReducer from '../features/contact/contactSlice'
 import socialReducer from '../features/social/socialSlice'
 import postReducer from '../features/post/postSlice'
 
+
 export default configureStore({
   reducer: {
     user: userReducer,
