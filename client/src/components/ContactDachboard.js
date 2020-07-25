@@ -5,7 +5,9 @@ import { getGuestProfile, selectContact, getContactPosts } from '../features/con
 import { selectSocial, follow, getFollow, unFollow, getGuestSocNum } from '../features/social/socialSlice'
 import { Link } from 'react-router-dom'
 import { removePostsProfiles } from '../features/post/postSlice'
+import { resetComment } from '../features/comment/commentSlice'
 const spiner = require ('../spiner.gif')
+
 
 
 
@@ -34,6 +36,7 @@ const Contact = ({match}) => {
             dispatch(getGuestSocNum(guestProfile_id))
             dispatch(removePostsProfiles())
             dispatch(getContactPosts({guestProfile_id, start, count}))
+            dispatch(resetComment())
             setData({ ...data, start: start + count })
         // eslint-disable-next-line
     },[])

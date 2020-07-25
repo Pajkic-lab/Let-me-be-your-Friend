@@ -7,6 +7,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import { removeGuestProfile } from '../features/contact/contactSlice'
+import { addComment, getComment, removeComment } from '../features/comment/commentSlice'
+import CommentList from './CommentList'
 
 
 const PostList = () => {
@@ -21,12 +23,17 @@ const PostList = () => {
 
     const [data, setData] = useState({
         start: 0,
-        count: 10
+        count: 10,
+        coments_open: []
     })
 
-    const {start, count} = data
+    const [formData, setFormData]= useState({
+        comment: ''
+    })
 
-    //const posts_ids = posts.map(post=> post.id)
+    const {comment} = formData
+
+    const {start, count, coments_open} = data
 
     useEffect(()=>{
         dispatch(getPosts({start, count}))
@@ -40,10 +47,19 @@ const PostList = () => {
         dispatch(getPosts({start, count}))  
     }
 
-    /*useEffect(()=>{
-        //dispatch(getLikes(posts_ids)) //ddddddddddddddddddddddddddddddddddd
-        // eslint-disable-next-line
-    },[posts_ids])*/
+    const open_coment = (id) => {
+        if(coments_open.find(el=> el===id)!==id) {
+            setData({...data, coments_open: coments_open.concat(id)})
+            dispatch(getComment(id))
+        } else {
+            setData({...data, coments_open: coments_open.filter(el=> el!==id)})
+            dispatch(removeComment(id)) 
+        }
+    }
+
+    const onChange = e => {setFormData({
+        ...formData, [e.target.name]: e.target.value
+    })}
 
     return (
         <Fragment>
@@ -53,7 +69,10 @@ const PostList = () => {
             hasMore={true}
             loader={<p>...</p>}
             >
-            {posts && posts.map(postEl=> <div key={postEl.id}>
+            {posts && posts.map(postEl=> <div key={postEl.id} >
+                <div onClick={()=>{
+                    open_coment(postEl.id)
+                    }}>
                 { profiles && profiles.filter(profile=> profile.user_id === postEl.user_id).map(prof=> 
                 <div key={uuidv4()}> 
                 { id===prof.user_id? (
@@ -69,6 +88,7 @@ const PostList = () => {
                 ) }
                 </div>
                 ) }
+                
                 <p>{postEl.text}</p>
                 <p>{postEl.created_at}</p>
                 {postEl.image !== null? (
@@ -76,10 +96,32 @@ const PostList = () => {
                 ):('')}
                 <br/>
                 <span>number off likes:</span> <br/>
-                <button onClick={()=>dispatch(likePost(postEl.id))}>like</button>
-                {/*dispatch(getLike(postEl.id))*/}
+                <button onClick={()=>dispatch(likePost(postEl.id))}>like</button> <br/>
+                </div>
+             
                 { id === postEl.user_id?
-                 (<button onClick={()=>{dispatch(deletePost(postEl.id))}}>Remove post</button>) : ('') }
+                 (<><button onClick={()=>{dispatch(deletePost(postEl.id))}}>Remove post</button> <br/></>) : ('') }
+
+                {coments_open.find(el=> el===postEl.id)? (
+                <Fragment>
+                    <span>Create comment</span>
+                    <form onSubmit={e=>{
+                        e.preventDefault()
+                        dispatch(addComment(comment, postEl.id))
+                        setFormData({...formData, comment: ''})
+                    }}>
+                        <input onChange={onChange} value={comment} name='comment' placeholder='comment' required /> <br/>
+                        <button>create comment</button>
+                    </form>
+
+
+
+                                    <CommentList post_id={postEl.id}/>
+
+
+
+                </Fragment>
+                ) : ('')}
                 <hr/>
             </div>)}
             </InfiniteScroll>

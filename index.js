@@ -46,10 +46,11 @@ if(process.env.NODE_ENV === "production") {
   app.use('/social', require('./routes/social'))
   app.use('/post', require('./routes/post'))
   app.use('/likes', require('./routes/likes'))
+  app.use('/comment', require('./routes/comment'))
 
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build/index.html"))  
+    res.sendFile(path.join(__dirname, "client/build/index.html"))    
   })
 
 

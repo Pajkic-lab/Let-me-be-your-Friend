@@ -4,6 +4,7 @@ import profileReducer from '../features/profile/profileSlice'
 import contactReducer from '../features/contact/contactSlice'
 import socialReducer from '../features/social/socialSlice'
 import postReducer from '../features/post/postSlice'
+import commentReducer from '../features/comment/commentSlice'
 
 
 export default configureStore({
@@ -12,6 +13,7 @@ export default configureStore({
     profile: profileReducer,
     contact: contactReducer,
     social: socialReducer,
-    post: postReducer
+    post: postReducer,
+    comment: commentReducer
   }
 });

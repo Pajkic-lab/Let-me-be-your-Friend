@@ -42,7 +42,7 @@ router.get('/', async(req, res)=> {
 
         const posts_ids = posts.map(post=> post.id) //arr1
         const newLikes = await pool.query("SELECT * FROM likes WHERE post_id = ANY($1::int[])", [posts_ids])
-        console.log(newLikes.rows)
+        //console.log(newLikes.rows)
             //
         const likes = newLikes.rows
 

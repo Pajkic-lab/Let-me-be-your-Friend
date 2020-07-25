@@ -39,6 +39,13 @@ CREATE TABLE likes (
  like_ BOOLEAN 
  );
 
+CREATE TABLE comments (
+ id serial PRIMARY KEY,
+ user_id int REFERENCES users(id),
+ post_id int REFERENCES posts(id),
+ comment VARCHAR(200)
+ );
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
 	"sess" json NOT NULL,
