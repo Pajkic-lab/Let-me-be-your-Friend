@@ -5,7 +5,7 @@ import { getGuestProfile, selectContact, getContactPosts } from '../features/con
 import { selectSocial, follow, getFollow, unFollow, getGuestSocNum } from '../features/social/socialSlice'
 import { Link } from 'react-router-dom'
 import { removePostsProfiles } from '../features/post/postSlice'
-import { resetComment } from '../features/comment/commentSlice'
+import { resetComment, selectComment } from '../features/comment/commentSlice'
 const spiner = require ('../spiner.gif')
 
 
@@ -23,6 +23,9 @@ const Contact = ({match}) => {
     const contact = useSelector(selectContact)
     const { guestProfile, loading, guestPosts } = contact
 
+    const comment = useSelector(selectComment)
+    const { comments} = comment
+
     const [data, setData] = useState({
         start: 0,
         count: 10
@@ -36,10 +39,15 @@ const Contact = ({match}) => {
             dispatch(getGuestSocNum(guestProfile_id))
             dispatch(removePostsProfiles())
             dispatch(getContactPosts({guestProfile_id, start, count}))
-            dispatch(resetComment())
             setData({ ...data, start: start + count })
         // eslint-disable-next-line
     },[])
+
+    useEffect (()=> {
+        if(comments.length>0){
+            dispatch(resetComment())
+        }
+    }, [comments])
 
     const getDataScroll = async() => {
         setData({ ...data, start: start + count })     

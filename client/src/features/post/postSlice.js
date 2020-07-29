@@ -6,8 +6,7 @@ export const postSlice = createSlice({
     initialState: {
         loading: true,
         posts: [],
-        profiles: [],
-        likes: []
+        profiles: []
     },
     reducers: {
         handleCreatePost: (state, action)=> {
@@ -17,16 +16,14 @@ export const postSlice = createSlice({
             const {posts, profiles, likes} = action.payload
             if(state.profiles.length < 1 ) {
                 return { ...state, posts: state.posts.concat(posts),
-                     profiles: state.profiles.concat(profiles),
-                     likes: state.likes.concat(likes), loading: false }
+                     profiles: state.profiles.concat(profiles) }
             } else {
                 const arr1 = state.profiles.map(profile => profile.user_id)
                 const arr2 = profiles.filter((el) => {
                     return !arr1.includes(el.user_id)
                 })
                 return { ...state, posts: state.posts.concat(posts),
-                     profiles: state.profiles.concat(arr2),
-                     likes: state.likes.concat(likes), loading: false }
+                     profiles: state.profiles.concat(arr2) }
             }
         },
         handleDeletePost: (state, action)=> {
@@ -61,11 +58,6 @@ export const deletePost = id => async dispatch => {
 
 export const removePostsProfiles = () => dispatch => {
     dispatch(handleRemovePostsProfiles())
-}
-
-export const likePost = (post_id) => async dispatch => {
-    const res = await axios.post('/likes', {post_id})
-    dispatch(handleLikePost(res.data))
 }
 
 

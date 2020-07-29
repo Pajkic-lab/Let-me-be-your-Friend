@@ -32,21 +32,25 @@ router.get('/', async(req, res)=> {
         follo.push(id)
 
         const contactPosts = await pool.query(
-            'SELECT * FROM posts WHERE user_id = ANY($1::int[]) ORDER BY created_at DESC OFFSET $2 LIMIT $3'
-            ,[follo, start, count]) //ORDER BY created_at ASC/DESC  OFFSET $2 LIMIT $2 
-        const posts = contactPosts.rows   
+        'SELECT * FROM posts WHERE user_id = ANY($1::int[]) ORDER BY created_at DESC OFFSET $2 LIMIT $3'
+        //'SELECT * FROM posts LEFT JOIN comments ON posts.id = comments.post_id WHERE posts.user_id = ANY($1::int[]) ORDER BY posts.created_at DESC OFFSET $2 LIMIT $3'
+            ,[follo, start, count]) //ORDER BY created_at ASC/DESC  OFFSET $2 LIMIT $2  LEFT JOIN SELECT COUNT (post_id) FROM comments
+        const posts = contactPosts.rows  
+        //console.log(posts) 
 
         const user_id = contactPosts.rows.map(uid => uid.user_id)
         const NewProfile = await pool.query("SELECT * FROM profiles WHERE user_id = ANY($1::int[])",[user_id]) 
         const profiles = NewProfile.rows
 
-        const posts_ids = posts.map(post=> post.id) //arr1
-        const newLikes = await pool.query("SELECT * FROM likes WHERE post_id = ANY($1::int[])", [posts_ids])
-        //console.log(newLikes.rows)
+        //const posts_ids = posts.map(post=> post.id) //arr1
+        //console.log(posts_ids)
+        //let arr1 = []
+        //posts_ids.map(async id => { arr1.concat(await pool.query("SELECT COUNT (post_id) FROM comments WHERE post_id = $1", [id] ))  }) 
+        //console.log(arr1)
             //
-        const likes = newLikes.rows
+        //const likes = newLikes.rows
 
-        res.send({posts, profiles, likes})
+        res.send({posts, profiles}) 
     } catch (err) {
         console.log(err)
     }
@@ -55,6 +59,7 @@ router.get('/', async(req, res)=> {
 router.post('/del', async(req, res)=> {
     const { id } = req.body
     try {
+        await pool.query("DELETE FROM comments WHERE post_id = $1", [id])
         await pool.query("DELETE FROM posts WHERE id = $1", [id])
         res.send({id})  
     } catch (err) {

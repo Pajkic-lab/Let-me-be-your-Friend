@@ -16,6 +16,7 @@ const Comment = ({post_id}) => {
     const { user } = useSelector(selectUser)
     const { id } = user 
 
+
     return (
         <div>
             {loading_comment===true? (<img src={spiner} alt="loading..." />) : (

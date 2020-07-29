@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectPost, deletePost, getPosts, likePost } from '../features/post/postSlice'
+import { selectPost, deletePost, getPosts } from '../features/post/postSlice'
 import { selectUser } from '../features/user/userSlice'
 import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -61,6 +61,8 @@ const PostList = () => {
         ...formData, [e.target.name]: e.target.value
     })}
 
+
+
     return (
         <Fragment>
             <InfiniteScroll
@@ -95,8 +97,6 @@ const PostList = () => {
                     <img alt='' src={postEl.image} style={{width: '200px', height:'300px'}}></img>
                 ):('')}
                 <br/>
-                <span>number off likes:</span> <br/>
-                <button onClick={()=>dispatch(likePost(postEl.id))}>like</button> <br/>
                 </div>
              
                 { id === postEl.user_id?

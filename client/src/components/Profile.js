@@ -5,6 +5,8 @@ import { createProfile, selectProfile, removeProfile, editProfile, findProfile, 
 import { Link } from 'react-router-dom'
 import { selectContact, removeGuestProfile } from '../features/contact/contactSlice'
 import { selectSocial, removeSocial } from '../features/social/socialSlice'
+import { removePostsProfiles } from '../features/post/postSlice'
+import { resetComment } from '../features/comment/commentSlice'
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -149,6 +151,8 @@ const Profile = () => {
                 dispatch(remove())
                 dispatch(removeProfile())
                 dispatch(removeSocial())
+                dispatch(removePostsProfiles())
+                dispatch(resetComment())
                 }}>LogOut</button>
             <hr/>
             

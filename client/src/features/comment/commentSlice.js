@@ -10,7 +10,8 @@ export const commentSlice = createSlice({
     },
     reducers: {
         handleAddComment: (state, action)=> {
-            return{ ...state, comments: state.comments.concat(action.payload), loading_comment: false}
+            console.log(...action.payload)
+            return{ ...state, comments: [...action.payload, ...state.comments] , loading_comment: false}  //comments: state.comments.concat(action.payload)
         },
         handleGetComment: (state, action)=> {
             const {comments, profiles} = action.payload
@@ -37,7 +38,8 @@ export const commentSlice = createSlice({
     }
 })
 
-export const { handleAddComment, handleGetComment, handleRemoveComment, handleResetComment } = commentSlice.actions 
+export const { handleAddComment, handleGetComment,
+     handleRemoveComment, handleResetComment } = commentSlice.actions 
 
 export const addComment = (comment, post_id) => async dispatch=> {
     const res = await axios.post('/comment', {comment, post_id})
@@ -56,6 +58,7 @@ export const removeComment = id => dispatch => {
 export const resetComment = () => dispatch => {
     dispatch(handleResetComment())
 }
+
 
 
 export const selectComment = state => state.comment
