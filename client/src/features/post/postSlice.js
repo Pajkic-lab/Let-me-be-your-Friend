@@ -13,7 +13,7 @@ export const postSlice = createSlice({
             return { ...state, posts: [action.payload, ...state.posts], loading: false }
         },
         handleGetPosts: (state, action)=> {
-            const {posts, profiles, likes} = action.payload
+            const {posts, profiles} = action.payload
             if(state.profiles.length < 1 ) {
                 return { ...state, posts: state.posts.concat(posts),
                      profiles: state.profiles.concat(profiles) }

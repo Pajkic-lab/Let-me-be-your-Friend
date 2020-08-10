@@ -1,6 +1,7 @@
-import React, { Fragment, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { createPost } from '../features/post/postSlice'
+import { selectProfile } from '../features/profile/profileSlice'
 const isImageUrl = require('is-image-url')
 
 const CreatePost = () => {
@@ -13,6 +14,9 @@ const CreatePost = () => {
     const { text, image } = formData
 
     const dispatch = useDispatch()
+
+    const { profile } = useSelector(selectProfile)
+    profile && console.log(profile)
 
     const onChange = e => {setFormData({
         ...formData, [e.target.name]: e.target.value
@@ -31,15 +35,15 @@ const CreatePost = () => {
     }
 
     return (
-        <Fragment>
+        <div className='create-post'>
             <h2>Create Post</h2>
             <form onSubmit={onSubmit}>
-                <input onChange={onChange} value={text} name='text' placeholder='post' required /><br/>
-                <input onChange={onChange} value={image} name='image' placeholder='image' /><br/>
-                <button>Submit post</button>
+            <input onChange={onChange} value={text} name='text' placeholder='post' required /><br/>
+            <input onChange={onChange} value={image} name='image' placeholder='image' /><br/>
+            <button>Submit post</button>
             </form>
             {image === null? ('') : (<img alt='' src={image} style={{width: '300px', height:'400px'}} />)}
-        </Fragment>
+        </div>
     )
 }
 

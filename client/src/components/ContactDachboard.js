@@ -47,6 +47,7 @@ const Contact = ({match}) => {
         if(comments.length>0){
             dispatch(resetComment())
         }
+        // eslint-disable-next-line
     }, [comments])
 
     const getDataScroll = async() => {

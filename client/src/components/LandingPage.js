@@ -1,8 +1,13 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { reg, log, selectUser,  getUser, removeErr } from '../features/user/userSlice'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import '../CSS/landingPage.css'
+
+import { Button } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+
 
 
 const LandingPage = ({history}) => {
@@ -59,35 +64,45 @@ const LandingPage = ({history}) => {
     }
 
     return (
-        <div>
+        <div className="landing-page-container">
+            <div className="focus">
+                <h1>Let me be your Friend !!!</h1>
+                <h3>'cause you are awesome.</h3> 
+                <p>Sign up with</p>
+                <br/>
+                <Button variant="contained" color="secondary" href="http://localhost:5000/auth/google">GOOGLE</Button>
+            </div>
+        <div className="form">
             <ToastContainer />
             { switcher===true? (
-            <Fragment>
-            <h1>LOGIN</h1> <br/> <br/>
-            <a href="http://localhost:5000/auth/google">GOOGLE</a>
+            <div className="login-page">
+            <h1>Login</h1> <br/> <br/>
             <form onSubmit={onSubmit}>
-                <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>
-                <input onChange={onChange} placeholder='password' name='password' value={password} required /><br/> <br/>
-                <button>LOGIN</button>
-            </form>
-            </Fragment>) :
+                <TextField onChange={onChange} variant="outlined" name='email' value={email} required label="email" /><br/> <br/>
+                <TextField onChange={onChange} variant="outlined" name='password' value={password} required label="password" /><br/> <br/>
+                <Button type="submit" variant="contained" color="primary">LOGIN</Button>
+            </form> 
+            </div>) :
 
             (
-            <Fragment>
-            <h1>REGISTER</h1> <br/> <br/>
-            <a  href="https://probamoheroku2.herokuapp.com/auth/google">GOOGLE</a>
+            <div className="register-page">
+            <h1>Register</h1> <br/> <br/>
             <form onSubmit={onSubmit}>
-                <input onChange={onChange} placeholder='name' name='name' value={name} required /><br/>
-                <input onChange={onChange} placeholder='email' name='email' value={email} required /><br/>
-                <input onChange={onChange} placeholder='password' name='password' value={password} required /><br/>
-                <input onChange={onChange} placeholder='pleas repeat password' name='passwordRep' value={passwordRep} required /><br/> <br/>
-                <button>REGISTER</button>
+                <TextField onChange={onChange} variant="outlined" label='name' name='name' value={name} required /><br/> <br/>
+                <TextField onChange={onChange} variant="outlined" label='email' name='email' value={email} required /><br/> <br/>
+                <TextField onChange={onChange} variant="outlined" label="password" name='password' value={password} required /><br/> <br/>
+                <TextField onChange={onChange} variant="outlined" label='confirm password' name='passwordRep' value={passwordRep} required /><br/> <br/>
+                <Button type="submit" variant="contained" color="primary">REGISTER</Button>
             </form>
-            </Fragment>)}
+            </div>)}
 
-            <br/><br/>
-            {switcher===true? 'Need new account?' : 'Alredy have account?'}<br/>
-            <button onClick={swop}>{switcher===true? 'REGISTER':'LOGIN'}</button>
+                <br/><br/>
+            {switcher===true? <p onClick={swop}>Need new account?</p> : <p onClick={swop}>Alredy have account?</p> }<br/> <br/> <br/> <br/>
+            
+            {switcher===true? <h4>Sign In with Google</h4> : <h4>Sign Up with Google</h4> } <br/>
+
+            <Button type="submit" variant="contained" color="primary" href="http://localhost:5000/auth/google">GOOGLE</Button>
+        </div>
         </div>
     )
 }

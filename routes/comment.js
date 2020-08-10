@@ -20,7 +20,7 @@ router.post('/get', async(req, res)=> {
     const {post_id} = req.body
     const id = req.session.user.id
     try {
-        const newComent = await pool.query('SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC', [post_id]) 
+        const newComent = await pool.query('SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC LIMIT 20', [post_id]) 
         const comments = newComent.rows
 
 

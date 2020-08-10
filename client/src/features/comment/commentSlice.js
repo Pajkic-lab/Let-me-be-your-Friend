@@ -10,8 +10,7 @@ export const commentSlice = createSlice({
     },
     reducers: {
         handleAddComment: (state, action)=> {
-            console.log(...action.payload)
-            return{ ...state, comments: [...action.payload, ...state.comments] , loading_comment: false}  //comments: state.comments.concat(action.payload)
+            return{ ...state, comments: [...action.payload, ...state.comments] , loading_comment: false} 
         },
         handleGetComment: (state, action)=> {
             const {comments, profiles} = action.payload
