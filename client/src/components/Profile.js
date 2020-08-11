@@ -17,6 +17,7 @@ import { selectContact, removeGuestProfile } from '../features/contact/contactSl
 import { selectSocial, removeSocial } from '../features/social/socialSlice'
 import { removePostsProfiles } from '../features/post/postSlice'
 import { resetComment } from '../features/comment/commentSlice'
+import zIndex from '@material-ui/core/styles/zIndex';
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 
@@ -94,10 +95,6 @@ const Profile = () => {
         <div>
             { profile.loading===true ? (<img src={spiner} alt="loading..." />) : ( 
                 profile.id !== null ?   (<div className="profile-main">  
-                    <div className='logo'>
-                        <h1>Friends</h1>
-                    </div>
-                 <div className="profile-data">
                  {profile.avatar && <img className="main-avatar"  src={profile.avatar} alt=''></img> }
                  <br/><br/>
                  <h2>{profile.name}</h2> 
@@ -108,7 +105,6 @@ const Profile = () => {
                         <span> followers: {followersNumber} </span> <br/>
                         </div>
                      )}
-                </div>
                 <div className="top-right-corner">
                     <form onSubmit={onSearch}>
                         <TextField size="small" onChange={onChange} name='search' value={search} placeholder='your friends email' required />
@@ -133,7 +129,8 @@ const Profile = () => {
                     style={
                         {
                             overlay: {
-                                background: 'linear-gradient(to bottom, #f0f0f0, #ccc9de, #a8a4cd, #8281bb, #5a5faa, 0.900)' 
+                                background: 'linear-gradient(to bottom, #f0f0f0, #ccc9de, #a8a4cd, #8281bb, #5a5faa, 0.900)',
+                                zIndex: '2' 
                             },
                             content : {
                                 top: '45%',
@@ -168,7 +165,8 @@ const Profile = () => {
                         style={
                             {
                                 overlay: {
-                                    background: 'linear-gradient(to bottom, #f0f0f0, #ccc9de, #a8a4cd, #8281bb, #5a5faa, 0.900)' 
+                                    background: 'linear-gradient(to bottom, #f0f0f0, #ccc9de, #a8a4cd, #8281bb, #5a5faa, 0.900)',
+                                    zIndex: '2'  
                                 },
                                 content : {
                                     top: '45%',

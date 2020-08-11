@@ -5,7 +5,7 @@
 .create-post span svg{
     color: rgb(90, 95, 170);
     border: 5px solid rgb(90, 95, 170);
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
 }
 .create-post svg:hover{

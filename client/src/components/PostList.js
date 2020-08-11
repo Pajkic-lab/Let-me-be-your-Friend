@@ -127,7 +127,7 @@ const PostList = () => {
                     }}>
                         <TextField variant="outlined" onChange={onChange} value={comment} name='comment' label='comment' required /> <br/><br/>
                         <span className="add-comment-icon" >
-                            <AddIcon style={{fontSize: 40}} onClick={e=>{
+                            <AddIcon style={{fontSize: 30}} onClick={e=>{
                         e.preventDefault()
                         dispatch(addComment(comment, postEl.id))
                         setFormData({...formData, comment: ''})
