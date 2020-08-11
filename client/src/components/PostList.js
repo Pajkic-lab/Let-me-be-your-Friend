@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
+
+import '../CSS/postList.css'
+import CloseIcon from '@material-ui/icons/Close';
+import TextField from '@material-ui/core/TextField';
+import AddIcon from '@material-ui/icons/Add';
+
 import { useSelector, useDispatch } from 'react-redux'
 import { selectPost, deletePost, getPosts } from '../features/post/postSlice'
 import { selectUser } from '../features/user/userSlice'
@@ -9,6 +15,7 @@ import { Link } from 'react-router-dom'
 import { removeGuestProfile } from '../features/contact/contactSlice'
 import { addComment, getComment, removeComment } from '../features/comment/commentSlice'
 import CommentList from './CommentList'
+var dateFormat = require('dateformat')
 
 
 const PostList = () => {
@@ -64,54 +71,68 @@ const PostList = () => {
 
 
     return (
-        <Fragment>
+        <div className='post-list'>
             <InfiniteScroll
             dataLength={posts.length}
             next={()=>{getDataScroll()}}
             hasMore={true}
             loader={<p>...</p>}
             >
-            {posts && posts.map(postEl=> <div key={postEl.id} >
+            {posts && posts.map(postEl=>
+            <div className={postEl.image? ('post-img') : ('post')} key={postEl.id} > 
                 <div onClick={()=>{
                     open_coment(postEl.id)
                     }}>
                 { profiles && profiles.filter(profile=> profile.user_id === postEl.user_id).map(prof=> 
                 <div key={uuidv4()}> 
                 { id===prof.user_id? (
-                    <>
+                    <div className={postEl.image? ('profile-post-img') : ('profile-post')}>
+                    <img alt='' src={prof.avatar}></img>
                     <p>{prof.name}</p>
-                    <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>
-                    </>
+                    </div>  
                 ) : (
+                    <div className={postEl.image? ('profile-post-img') : ('profile-post')}>
                     <Link to={`/contact/${prof.user_id}`}>
+                    <img alt='' src={prof.avatar} ></img>
                     <p>{prof.name}</p>
-                    <img alt='' src={prof.avatar} style={{width: '100px', height:'100px'}}></img>
                     </Link>
+                    </div>
                 ) }
                 </div>
                 ) }
                 
-                <p>{postEl.text}</p>
-                <p>{postEl.created_at}</p>
                 {postEl.image !== null? (
-                    <img alt='' src={postEl.image} style={{width: '200px', height:'300px'}}></img>
+                    <img className={postEl.image? ('image') : ('')} alt='' src={postEl.image}></img>
                 ):('')}
+                <br/><br/>
+                <p className="date">{dateFormat(postEl.created_at, "mmmm dS yyyy h:MM")}</p><br/>
+                <p className="post-text">{postEl.text}</p>
+                
                 <br/>
                 </div>
              
                 { id === postEl.user_id?
-                 (<><button onClick={()=>{dispatch(deletePost(postEl.id))}}>Remove post</button> <br/></>) : ('') }
+                 (<>
+                 <span className={postEl.image? ('span-image') : ('span-')}  onClick={()=>{dispatch(deletePost(postEl.id))}}>
+                     <CloseIcon style={{fontSize: 30}} />
+                 </span> <br/>
+                </>) : ('') }
 
                 {coments_open.find(el=> el===postEl.id)? (
-                <Fragment>
-                    <span>Create comment</span>
+                <div>
                     <form onSubmit={e=>{
                         e.preventDefault()
                         dispatch(addComment(comment, postEl.id))
                         setFormData({...formData, comment: ''})
                     }}>
-                        <input onChange={onChange} value={comment} name='comment' placeholder='comment' required /> <br/>
-                        <button>create comment</button>
+                        <TextField variant="outlined" onChange={onChange} value={comment} name='comment' label='comment' required /> <br/><br/>
+                        <span className="add-comment-icon" >
+                            <AddIcon style={{fontSize: 40}} onClick={e=>{
+                        e.preventDefault()
+                        dispatch(addComment(comment, postEl.id))
+                        setFormData({...formData, comment: ''})
+                    }} />
+                        </span><br/><br/>
                     </form>
 
 
@@ -119,13 +140,13 @@ const PostList = () => {
                                     <CommentList post_id={postEl.id}/>
 
 
-
-                </Fragment>
+                </div>
                 ) : ('')}
-                <hr/>
-            </div>)}
+                <div className="bottom-separation-line"></div>
+            </div>
+            )}
             </InfiniteScroll>
-        </Fragment>
+        </div>
     )
 }
 

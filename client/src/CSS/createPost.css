@@ -1,0 +1,17 @@
+.create-post{
+    padding: 1%;
+    margin-bottom: 50px;
+}
+.create-post span svg{
+    color: rgb(90, 95, 170);
+    border: 5px solid rgb(90, 95, 170);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.create-post svg:hover{
+    background-color: rgb(90, 95, 170);
+    color: white;
+}
+.create-post h2{
+    font-family: 'Josefin Sans', sans-serif;
+}

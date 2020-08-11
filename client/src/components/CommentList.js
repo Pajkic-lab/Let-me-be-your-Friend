@@ -21,23 +21,24 @@ const Comment = ({post_id}) => {
         <div>
             {loading_comment===true? (<img src={spiner} alt="loading..." />) : (
                 <div>
-                    {comments && comments.filter(comment=> comment.post_id === post_id).map(com=><div key={com.id}>
+                    {comments && comments.filter(comment=> comment.post_id === post_id).map(com=>
+                    <div className="comment" key={com.id}>
                         {profiles && profiles.filter(profile=> profile.user_id === com.user_id).map(prof=>
                             <div key={uuidv4()}>
                                 { id===prof.user_id? (
                                     <>
                                     <p>{prof.name}</p>
-                                    <img alt='' src={prof.avatar} style={{width: '50px', height:'50px'}}></img>
+                                    <img alt='' src={prof.avatar}></img>
                                     </>
                                     ) : (
                                     <Link to={`/contact/${prof.user_id}`}>
                                     <p>{prof.name}</p>
-                                    <img alt='' src={prof.avatar} style={{width: '50px', height:'50px'}}></img>
+                                    <img alt='' src={prof.avatar}></img>
                                     </Link>
                                 ) } 
                             </div>
                         )}
-                        <span>{com.comment}</span>
+                        <h6>{com.comment}</h6>
                     </div>)}
                 </div>
             )}
