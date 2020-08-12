@@ -1,11 +1,11 @@
 .profile-main{
     position: relative;
-    width: 100%;
+    width: 98vw;
     padding: 3%;
     font-family: 'Josefin Sans', sans-serif;
     height: 30vh;
     margin-bottom: 90px;
-} /* background-color: rgb(248, 248, 248); */
+} 
 
 
 .main-avatar {
@@ -99,4 +99,60 @@
 }
 .search-guest-profile :link{
     text-decoration: none;
+}
+
+
+
+
+@media(max-width: 765px) {
+    .profile-main{
+        width: 100vw;
+        height: 200px;
+        padding: 2%;
+        font-family: 'Josefin Sans', sans-serif;
+        height: 20vh;
+        margin-bottom: 240px;
+    } 
+    .main-avatar {
+        position: relative;
+        top: 10px;
+        left: -60px;
+        min-width: 400px;
+        padding: 3px;
+        height: 10rem;
+        width: 10rem;
+        min-width: 100px;
+        min-height: 100px;
+        border-radius: 100%;
+        border: 5px solid rgb(90, 95, 170);
+    }
+    .profile-main h2{
+        display: inline-block;
+        position: relative;
+        top: -140px;
+        left: 170px;
+    }
+    .profile-main h3{
+        display: inline-block;
+        position: relative;
+        top: -100px;
+        left: 125px;
+    }
+    .s1{
+        display: inline-block;
+        position: relative;
+        top: 20px;
+        left: -30px;
+    }
+    .top-right-corner{
+        position: relative;
+        width: 80%;
+        min-width: 350px;
+        top: 80px;
+        display: flex;
+        margin: 0 auto;
+    }
+    .search-button, .edit-button, .exit-button{
+        margin: 0 auto;
+    }
 }

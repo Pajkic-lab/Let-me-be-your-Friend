@@ -17,7 +17,6 @@ import { selectContact, removeGuestProfile } from '../features/contact/contactSl
 import { selectSocial, removeSocial } from '../features/social/socialSlice'
 import { removePostsProfiles } from '../features/post/postSlice'
 import { resetComment } from '../features/comment/commentSlice'
-import zIndex from '@material-ui/core/styles/zIndex';
 const isImageUrl = require('is-image-url')
 const spiner = require ('../spiner.gif')
 

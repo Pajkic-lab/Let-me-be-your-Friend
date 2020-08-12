@@ -1,4 +1,9 @@
-import React, { useEffect, Fragment, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+import '../CSS/contactDashboard.css'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Button } from '@material-ui/core';
+
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGuestProfile, selectContact, getContactPosts } from '../features/contact/contactSlice'
@@ -6,7 +11,9 @@ import { selectSocial, follow, getFollow, unFollow, getGuestSocNum } from '../fe
 import { Link } from 'react-router-dom'
 import { removePostsProfiles } from '../features/post/postSlice'
 import { resetComment, selectComment } from '../features/comment/commentSlice'
+
 const spiner = require ('../spiner.gif')
+var dateFormat = require('dateformat')
 
 
 
@@ -57,60 +64,62 @@ const Contact = ({match}) => {
     
 
     return(
-        <Fragment>
-            <Link to='/dashboard'><h2>go Back</h2></Link>
+        <>
+        <div className="contact-profile">
            {loading===true? (<img src={spiner} alt="loading..." />) : (
                <>
-               <img alt='' src={guestProfile.avatar} style={{width: '200px', height:'200px'}}></img> <br/>
+               <Link to='/dashboard'><span className="arrow"><ArrowBackIosIcon /></span></Link>
+               <img className="contact-image" alt='' src={guestProfile.avatar}></img> <br/>
                <h2>{guestProfile.name}</h2>
-               <p>{guestProfile.email}</p>
                <p>{guestProfile.status}</p>
-               { isLoading===true? (<span>Loading...</span>) : (
-                   <>
+               { isLoading===true? ('') : (
+                   <div className="s2">
                    <span>following: {contactFollowingNumber} </span>
                    <span>followers: {contactFollowersNumber} </span> <br/>
-                   </>
+                   </div>
                )}
 
-               { isLoading===true? (<span>Loading...</span>) : (
+               { isLoading===true? ('') : (
                 <>
                    { following===true?
-                    (<button onClick={()=>{
+                    (<Button className="follow-btn" variant="contained" onClick={()=>{
                         dispatch(unFollow(guestProfile_id))
                         dispatch(getGuestSocNum(guestProfile_id))
-                    }}>unFollow</button>) :
-                    (<button onClick={()=>{
+                    }}>unFollow</Button>) :
+                    (<Button className="follow-btn" variant="contained" color="primary" onClick={()=>{
                         dispatch(follow(guestProfile_id))
                         dispatch(getGuestSocNum(guestProfile_id))
-                        }}>follow</button>)}
+                        }}>follow</Button>)}
                 </>
                )}
                </>
            )}
-           <hr/>
+           </div>
 
-           {loading===true? (<img src={spiner} alt="loading..." />) : (
-               <Fragment>
-                   <InfiniteScroll
+           {loading===true? ('') : (
+               <div className="post-list">
+                <InfiniteScroll
                     dataLength={guestPosts.length}
                     next={()=>{getDataScroll()}}
                     hasMore={true}
                     loader={<p>...</p>}
                 >
-                {guestPosts && guestPosts.map(post=> <div key={post.id}>
-                <p>{post.text}</p>
-                <p>{post.created_at}</p>
+                {guestPosts && guestPosts.map(post=>
+                     <div className={ post.image? ("contact-post-img") : ('contact-post') } key={post.id}>
                 {post.image !== null? (
-                     <img alt='' src={post.image} style={{width: '200px', height:'300px'}}></img>
+                     <img className={post.image? ('contact-post-image') : ('')} alt='' src={post.image}></img>
                  ):('')}
-                 <hr/>
+                 <br/><br/><br/>
+                 <p className="date">{dateFormat(post.created_at, "mmmm dS yyyy h:MM")}</p><br/>
+                 <p className="post-text">{post.text}</p> <br/><br/>
+                 <div className="bottom-separation-line"></div>
                 </div>
                 )}
                 </InfiniteScroll>
-               </Fragment>
+               </div>
            )}
            
-        </Fragment>
+        </>
     )
     
 }

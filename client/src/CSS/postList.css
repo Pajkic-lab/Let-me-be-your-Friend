@@ -1,6 +1,5 @@
 
 .post-img{
-    
     font-family: 'Josefin Sans', sans-serif;
     padding: 1%;
     width: 35%;
@@ -97,8 +96,8 @@
     width: 80px;
     height: 80px;
     position: relative;
-    left: -90px;
-    top: -5px;
+    left: -60px;
+    top: -8px;
     border: 3px solid white;
     border-radius: 50%;
 }
@@ -110,7 +109,7 @@
 }
 .comment h6{
     position: relative;
-    top: -40px;
+    top: -50px;
     left: 50%;
     text-align: left !important;
     font-size: 15px;

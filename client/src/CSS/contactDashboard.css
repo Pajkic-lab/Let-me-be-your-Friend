@@ -1,0 +1,125 @@
+.contact-profile{
+    position: relative;
+    width: 98vw;
+    padding: 3%;
+    font-family: 'Josefin Sans', sans-serif;
+    height: 30vh;
+    margin-bottom: 90px;
+}
+
+.contact-image{
+    position: relative;
+    top: -20px;
+    left: -160px;
+    margin: 1%;
+    padding: 3px;
+    height: 12rem;
+    width: 12rem;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 100%;
+    border: 5px solid rgb(90, 95, 170);
+}
+
+.contact-profile h2{
+    position: relative;
+    top: -210px;
+    left: 70px;
+}
+
+.contact-profile p{
+    position: relative;
+    top: -200px;
+    left: 70px;
+}
+.s2{
+    position: relative;
+    top: -180px;
+    left: 70px;
+}
+
+.arrow{
+    position: relative;
+    top: -225px;
+    left: -125px;
+    color: rgb(184, 184, 184);
+}
+.arrow:hover{
+    color: rgb(90, 95, 170);
+}
+
+.follow-btn{
+    position: relative;
+    top: -155px;
+    left: 70px;
+}
+
+
+.contact-post-img{
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 2%;
+    width: 35%;
+    margin: 10px auto;
+    min-width: 350px;
+    position: relative;
+}
+.contact-post{
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 2%;
+    width: 35%;
+    margin: 10px auto;
+    min-width: 350px;
+    position: relative;
+}
+.contact-post-image{
+    width: 325px;
+    height: 450px;
+    border: 4px solid rgb(90, 95, 170);
+    padding: 3px;
+    position: relative;
+}
+
+
+
+@media(max-width: 765px) {
+    .contact-profile{
+        font-family: 'Josefin Sans', sans-serif;
+        height: 30vh;
+        margin-bottom: 170px;
+    }
+    .contact-image{
+        position: static;
+        padding: 3px;
+        height: 12rem;
+        width: 12rem;
+        min-width: 100px;
+        min-height: 100px;
+        border-radius: 100%;
+        border: 5px solid rgb(90, 95, 170);
+    }
+    .contact-profile h2{
+        text-align: center;
+        display: block;
+        position: static;
+    }
+    
+    .contact-profile p{
+        display: block;
+        position: static;
+    }
+    .s2{
+        display: block;
+        position: static;
+    }
+    .follow-btn{
+        display: block;
+        position: absolute;
+        top: 30px;
+        margin: 0 auto;
+        left: 9px;
+    }
+    .arrow{
+        position: static;
+        color: rgb(184, 184, 184);
+    }
+}

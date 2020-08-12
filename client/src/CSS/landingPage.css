@@ -75,3 +75,17 @@ h4:after {
 }
 
 
+
+
+@media (max-width: 840px) {
+    .focus{
+        display: none;
+    }
+    .form {
+        position: static;
+        margin: 0 auto;
+        width: 100%;
+        height: 100vh;
+        background-color: white;
+    }
+}
