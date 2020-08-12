@@ -84,11 +84,11 @@ const Contact = ({match}) => {
                    { following===true?
                     (<Button className="follow-btn" variant="contained" onClick={()=>{
                         dispatch(unFollow(guestProfile_id))
-                        dispatch(getGuestSocNum(guestProfile_id))
+                        //dispatch(getGuestSocNum(guestProfile_id))
                     }}>unFollow</Button>) :
                     (<Button className="follow-btn" variant="contained" color="primary" onClick={()=>{
                         dispatch(follow(guestProfile_id))
-                        dispatch(getGuestSocNum(guestProfile_id))
+                        //dispatch(getGuestSocNum(guestProfile_id))
                         }}>follow</Button>)}
                 </>
                )}

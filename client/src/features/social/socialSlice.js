@@ -13,17 +13,20 @@ export const socialSlice = createSlice({
     },
     reducers: {
         handleFollow: (state, action)=> {
-            return { ...state, following: action.payload, isLoading: false }
+            return { ...state, following: action.payload,
+                 contactFollowersNumber: state.contactFollowersNumber + 1, isLoading: false }
         },
         handleGetFollow: (state, action)=> {
             return { ...state, following: action.payload, isLoading: false }
         },
         handleUnFollow: (state, action)=> {
-            return { ...state, following: action.payload, isLoading: false }
+            return { ...state, following: action.payload,
+                 contactFollowersNumber: state.contactFollowersNumber - 1, isLoading: false }
         },
         handleGetSocNum: (state, action)=> {
             const {followingNumber, followersNumber} = action.payload
-            return{ ...state, followingNumber, followersNumber, isLoading: false }
+            return{ ...state, followingNumber: followingNumber,
+                 followersNumber: followersNumber, isLoading: false }
         },
         handleRemoveSocial: state => {
             return{ ...state, isLoading: true, following: false, followingNumber: null,
